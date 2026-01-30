@@ -29,11 +29,22 @@ app.use((_req, res, next) => {
   next()
 })
 
+// MIME types: Hostinger/proxy bazen JS/CSS'i text/plain veriyor; tarayıcı module çalıştırmıyor.
+const setMime = (res, filePath) => {
+  const ext = path.extname(filePath).toLowerCase()
+  if (ext === '.js' || ext === '.mjs') res.setHeader('Content-Type', 'application/javascript; charset=UTF-8')
+  else if (ext === '.css') res.setHeader('Content-Type', 'text/css; charset=UTF-8')
+  else if (ext === '.json') res.setHeader('Content-Type', 'application/json; charset=UTF-8')
+  else if (ext === '.svg') res.setHeader('Content-Type', 'image/svg+xml')
+  else if (ext === '.webmanifest') res.setHeader('Content-Type', 'application/manifest+json; charset=UTF-8')
+}
+
 app.use(express.static(distPath, {
   index: false,
   maxAge: process.env.NODE_ENV === 'production' ? '1y' : 0,
   etag: true,
-  lastModified: true
+  lastModified: true,
+  setHeaders: setMime
 }))
 
 // SPA fallback: only for non-file requests (don't send HTML for /assets/*)
