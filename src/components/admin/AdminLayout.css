@@ -1,0 +1,309 @@
+.admin-layout {
+  display: flex;
+  min-height: 100vh;
+  background: linear-gradient(to bottom, var(--color-gray-50) 0%, var(--color-white) 100%);
+}
+
+.admin-sidebar {
+  width: 280px;
+  background: linear-gradient(180deg, var(--color-gray-900) 0%, var(--color-dark) 100%);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  height: 100vh;
+  left: 0;
+  top: 0;
+  overflow-y: auto;
+  box-shadow: var(--shadow-xl);
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+.admin-sidebar-header {
+  padding: 2rem 1.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  position: relative;
+}
+
+.admin-sidebar-header::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 1.5rem;
+  right: 1.5rem;
+  height: 1px;
+  background: var(--gradient-hero);
+  opacity: 0.3;
+}
+
+.admin-logo {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 1.3rem;
+  font-weight: 800;
+  margin-bottom: 1.5rem;
+  letter-spacing: -0.02em;
+}
+
+.admin-logo i {
+  font-size: 1.8rem;
+  background: var(--gradient-hero);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: drop-shadow(0 2px 4px rgba(220, 38, 38, 0.3));
+}
+
+.admin-user-info {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.9rem;
+  color: var(--color-gray-300);
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-lg);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all var(--transition-base);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.admin-user-info:hover {
+  background: rgba(255, 255, 255, 0.12);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+
+.admin-user-info i {
+  font-size: 1.2rem;
+  color: var(--color-primary);
+}
+
+.admin-nav {
+  flex: 1;
+  padding: 1.5rem 0;
+  overflow-y: auto;
+}
+
+.admin-nav-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1.5rem;
+  color: var(--color-gray-300);
+  text-decoration: none;
+  transition: all var(--transition-base);
+  border-left: 3px solid transparent;
+  position: relative;
+  font-weight: 500;
+  margin: 0.25rem 0.75rem;
+  border-radius: var(--radius-md);
+}
+
+.admin-nav-item::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: var(--gradient-hero);
+  transform: scaleY(0);
+  transform-origin: bottom;
+  transition: transform var(--transition-base);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+}
+
+.admin-nav-item:hover {
+  background: rgba(220, 38, 38, 0.15);
+  color: white;
+  transform: translateX(4px);
+  box-shadow: var(--shadow-sm);
+}
+
+.admin-nav-item:hover::before {
+  transform: scaleY(1);
+}
+
+.admin-nav-item.active {
+  background: linear-gradient(90deg, rgba(220, 38, 38, 0.2) 0%, rgba(37, 99, 235, 0.1) 100%);
+  color: white;
+  border-left-color: transparent;
+  box-shadow: var(--shadow-md);
+}
+
+.admin-nav-item.active::before {
+  transform: scaleY(1);
+}
+
+.admin-nav-item i {
+  width: 22px;
+  text-align: center;
+  font-size: 1.1rem;
+  transition: transform var(--transition-base);
+}
+
+.admin-nav-item:hover i {
+  transform: scale(1.15);
+}
+
+.admin-logout-btn {
+  width: calc(100% - 1.5rem);
+  margin: 1rem 0.75rem;
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.15) 0%, rgba(220, 38, 38, 0.1) 100%);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  cursor: pointer;
+  color: #ef4444;
+  border-radius: var(--radius-md);
+  transition: all var(--transition-base);
+  font-weight: 600;
+}
+
+.admin-logout-btn:hover {
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.25) 0%, rgba(220, 38, 38, 0.2) 100%);
+  border-color: rgba(239, 68, 68, 0.5);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.admin-logout-btn i {
+  transform: translateX(-2px);
+  transition: transform var(--transition-base);
+}
+
+.admin-logout-btn:hover i {
+  transform: translateX(2px);
+}
+
+.admin-main {
+  margin-left: 280px;
+  flex: 1;
+  padding: 2.5rem;
+  width: calc(100% - 280px);
+  background: transparent;
+}
+
+.admin-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+  gap: 1rem;
+  color: var(--color-gray-600);
+}
+
+.admin-loading i {
+  font-size: 2.5rem;
+  background: var(--gradient-hero);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.admin-sidebar-toggle {
+  display: none;
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  z-index: 1002;
+  width: 48px;
+  height: 48px;
+  background: var(--gradient-hero);
+  border: none;
+  border-radius: var(--radius-lg);
+  cursor: pointer;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  box-shadow: var(--shadow-lg);
+  transition: all var(--transition-base);
+}
+
+.admin-sidebar-toggle:hover {
+  transform: scale(1.05);
+  box-shadow: var(--shadow-xl);
+}
+
+.hamburger-line {
+  width: 24px;
+  height: 3px;
+  background: white;
+  border-radius: 3px;
+  transition: all 0.3s ease;
+  display: block;
+}
+
+.hamburger-line.active:nth-child(1) {
+  transform: rotate(45deg) translate(6px, 6px);
+}
+
+.hamburger-line.active:nth-child(2) {
+  opacity: 0;
+}
+
+.hamburger-line.active:nth-child(3) {
+  transform: rotate(-45deg) translate(6px, -6px);
+}
+
+.admin-sidebar-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1001;
+  backdrop-filter: blur(4px);
+}
+
+@media (max-width: 768px) {
+  .admin-sidebar-toggle {
+    display: flex;
+  }
+
+  .admin-sidebar-overlay {
+    display: block;
+  }
+
+  .admin-sidebar {
+    width: 85%;
+    max-width: 320px;
+    transform: translateX(-100%);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 1002;
+  }
+
+  .admin-sidebar.open {
+    transform: translateX(0);
+  }
+
+  .admin-main {
+    margin-left: 0;
+    width: 100%;
+    padding: 1rem;
+  }
+
+  .admin-sidebar-header {
+    padding: 1.5rem 1rem;
+  }
+
+  .admin-nav-item {
+    padding: 0.875rem 1rem;
+    font-size: 0.95rem;
+  }
+}
+

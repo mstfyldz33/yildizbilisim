@@ -1,0 +1,25 @@
+.admin-testimonials {
+  max-width: 1400px;
+}
+
+.admin-text-preview {
+  max-width: 300px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.admin-rating {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.admin-rating i {
+  color: #d1d5db;
+  font-size: 0.9rem;
+}
+
+.admin-rating i.active {
+  color: #fbbf24;
+}
+

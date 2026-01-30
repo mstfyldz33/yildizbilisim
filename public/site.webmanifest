@@ -1,0 +1,28 @@
+{
+  "name": "Yıldız Bilişim",
+  "short_name": "Yıldız Bilişim",
+  "description": "Silifke Güvenlik Kamera Sistemleri",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    },
+    {
+      "src": "/yildizlogo.jpg",
+      "sizes": "192x192",
+      "type": "image/jpeg"
+    },
+    {
+      "src": "/yildizlogo.jpg",
+      "sizes": "512x512",
+      "type": "image/jpeg"
+    }
+  ],
+  "theme_color": "#DC2626",
+  "background_color": "#ffffff",
+  "display": "standalone",
+  "start_url": "/"
+}
+
+

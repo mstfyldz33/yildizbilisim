@@ -1,0 +1,32 @@
+/* Main Stylesheet */
+
+/* Variables & Global */
+@import './variables.css';
+@import './global.css';
+
+/* Layout */
+@import './layout/header.css';
+@import './layout/footer.css';
+
+/* Components */
+@import './components/buttons.css';
+@import './components/hero.css';
+@import './components/services.css';
+@import './components/services-comparison.css';
+@import './components/about.css';
+@import './components/brands.css';
+@import './components/projects.css';
+@import './components/map.css';
+@import './components/contact.css';
+@import './components/forms.css';
+@import './components/certificates.css';
+@import './components/blog.css';
+@import './components/testimonials.css';
+@import './components/careers.css';
+@import './components/newsletter.css';
+
+/* Pages */
+@import './pages/legal.css';
+
+/* Responsive */
+@import './responsive.css';

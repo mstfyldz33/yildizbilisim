@@ -1,0 +1,136 @@
+.services {
+    padding: 120px 0;
+    background: linear-gradient(to bottom, var(--color-gray-50) 0%, var(--color-white) 100%);
+    position: relative;
+}
+
+.services h2 {
+    text-align: center;
+    font-size: 3rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
+    color: var(--color-gray-900);
+    letter-spacing: -0.02em;
+    position: relative;
+    display: inline-block;
+    width: 100%;
+}
+
+.services h2::after {
+    content: '';
+    position: absolute;
+    bottom: -0.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 4px;
+    background: var(--gradient-hero);
+    border-radius: var(--radius-full);
+}
+
+.services > .container > p {
+    text-align: center;
+    font-size: 1.125rem;
+    color: var(--color-gray-600);
+    margin-bottom: 3rem;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+}
+
+.service-card {
+    background: var(--gradient-card);
+    padding: 2.5rem 2rem;
+    border-radius: var(--radius-2xl);
+    text-align: center;
+    box-shadow: var(--shadow-md);
+    border: 1px solid rgba(226, 232, 240, 0.5);
+    transition: all var(--transition-base);
+    position: relative;
+    overflow: hidden;
+}
+
+.service-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--gradient-hero);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform var(--transition-base);
+}
+
+.service-card:hover {
+    transform: translateY(-12px) scale(1.02);
+    box-shadow: var(--shadow-xl);
+    border-color: rgba(220, 38, 38, 0.2);
+}
+
+.service-card:hover::before {
+    transform: scaleX(1);
+}
+
+.service-icon {
+    width: 90px;
+    height: 90px;
+    background: var(--gradient-hero);
+    border-radius: var(--radius-full);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem;
+    box-shadow: var(--shadow-colored);
+    transition: all var(--transition-base);
+    position: relative;
+}
+
+.service-icon::before {
+    content: '';
+    position: absolute;
+    inset: -4px;
+    border-radius: var(--radius-full);
+    background: var(--gradient-hero);
+    opacity: 0.3;
+    filter: blur(12px);
+    z-index: -1;
+    transition: all var(--transition-base);
+}
+
+.service-card:hover .service-icon {
+    transform: scale(1.1) rotate(5deg);
+    box-shadow: var(--shadow-colored-lg);
+}
+
+.service-card:hover .service-icon::before {
+    opacity: 0.5;
+    transform: scale(1.2);
+}
+
+.service-icon i {
+    font-size: 2rem;
+    color: white;
+    width: auto !important;
+    height: auto !important;
+    background: none !important;
+    border-radius: 0 !important;
+}
+
+.service-card h3 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: #1e293b;
+}
+
+.service-card p {
+    color: #64748b;
+    line-height: 1.6;
+}
