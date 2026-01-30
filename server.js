@@ -47,11 +47,11 @@ app.use(express.static(distPath, {
   setHeaders: setMime
 }))
 
-// SPA fallback: only for non-file requests (don't send HTML for /assets/*)
-app.get('*', (req, res, next) => {
-  if (req.path.startsWith('/assets/') || req.path.startsWith('/yildizlogo') || req.path.startsWith('/favicon') || req.path.startsWith('/site.webmanifest') || req.path.startsWith('/robots') || req.path.startsWith('/sitemap')) {
-    return res.status(404).end()
-  }
+// SPA fallback: statik dosya gibi görünen yollara HTML gönderme (assetsDir: '' ile .js/.css kökte)
+const staticExt = ['.js', '.mjs', '.css', '.ico', '.jpg', '.jpeg', '.png', '.gif', '.webp', '.svg', '.woff2', '.woff', '.ttf', '.json', '.xml', '.txt', '.webmanifest']
+app.get('*', (req, res) => {
+  const ext = path.extname(req.path).toLowerCase()
+  if (staticExt.includes(ext)) return res.status(404).end()
   res.sendFile(path.join(distPath, 'index.html'))
 })
 
