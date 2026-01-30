@@ -29,12 +29,24 @@ app.use((_req, res, next) => {
   next()
 })
 
-// MIME types: Hostinger/proxy bazen JS/CSS'i text/plain veriyor; tarayıcı module çalıştırmıyor.
-const setMime = (res, filePath) => {
-  const ext = path.extname(filePath).toLowerCase()
+// JS/CSS'i kendimiz sunuyoruz; Hostinger proxy Content-Type'ı ezebiliyor (text/plain → module çalışmıyor)
+app.get(/\.(js|mjs|css)$/i, (req, res, next) => {
+  const safePath = req.path.replace(/^\//, '').replace(/\.\./g, '')
+  const filePath = path.resolve(distPath, safePath)
+  const distAbs = path.resolve(distPath)
+  if (!filePath.startsWith(distAbs) || !existsSync(filePath)) {
+    return res.status(404).end()
+  }
+  const ext = path.extname(req.path).toLowerCase()
   if (ext === '.js' || ext === '.mjs') res.setHeader('Content-Type', 'application/javascript; charset=UTF-8')
   else if (ext === '.css') res.setHeader('Content-Type', 'text/css; charset=UTF-8')
-  else if (ext === '.json') res.setHeader('Content-Type', 'application/json; charset=UTF-8')
+  res.sendFile(filePath)
+})
+
+// MIME types for other static files (images, fonts, etc.)
+const setMime = (res, filePath) => {
+  const ext = path.extname(filePath).toLowerCase()
+  if (ext === '.json') res.setHeader('Content-Type', 'application/json; charset=UTF-8')
   else if (ext === '.svg') res.setHeader('Content-Type', 'image/svg+xml')
   else if (ext === '.webmanifest') res.setHeader('Content-Type', 'application/manifest+json; charset=UTF-8')
 }
@@ -52,6 +64,9 @@ const staticExt = ['.js', '.mjs', '.css', '.ico', '.jpg', '.jpeg', '.png', '.gif
 app.get('*', (req, res) => {
   const ext = path.extname(req.path).toLowerCase()
   if (staticExt.includes(ext)) return res.status(404).end()
+  // index.html önbelleğe alınmasın; her zaman güncel asset linkleri yüklensin (503 workaround sonrası)
+  res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate')
+  res.setHeader('Pragma', 'no-cache')
   res.sendFile(path.join(distPath, 'index.html'))
 })
 
