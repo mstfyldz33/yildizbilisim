@@ -5,12 +5,12 @@ const SEO = ({
   title, 
   description, 
   keywords, 
-  image = 'https://yildizbilisim.com/yildizlogo.jpg',
+  image = 'https://yildizcloud.com/yildizlogo.jpg',
   type = 'website',
   noindex = false
 }) => {
   const location = useLocation()
-  const baseUrl = 'https://yildizbilisim.com'
+  const baseUrl = 'https://yildizcloud.com'
   const currentUrl = `${baseUrl}${location.pathname}`
 
   useEffect(() => {

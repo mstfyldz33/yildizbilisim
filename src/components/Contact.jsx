@@ -128,7 +128,7 @@ const Contact = () => {
               <div className="contact-card">
                 <div className="contact-card-icon" aria-hidden="true"><i className="fas fa-envelope"></i></div>
                 <h4>E-posta</h4>
-                <p className="contact-value"><a href="mailto:info@yildizbilisim.com" aria-label="E-posta gönder: info@yildizbilisim.com"><i className="fas fa-envelope" aria-hidden="true"></i> info@yildizbilisim.com</a></p>
+                <p className="contact-value"><a href="mailto:info@yildizcloud.com" aria-label="E-posta gönder: info@yildizcloud.com"><i className="fas fa-envelope" aria-hidden="true"></i> info@yildizcloud.com</a></p>
               </div>
               <div className="contact-card">
                 <div className="contact-card-icon" aria-hidden="true"><i className="fas fa-calendar-days"></i></div>
@@ -138,7 +138,7 @@ const Contact = () => {
               <div className="contact-card">
                 <div className="contact-card-icon" aria-hidden="true"><i className="fas fa-location-dot"></i></div>
                 <h4>Adres</h4>
-                <p className="contact-value"><i className="fas fa-location-dot" aria-hidden="true"></i> Göksu Mahallesi<br />Celal Bayar Caddesi No:98/A<br />Silifke/Mersin</p>
+                <p className="contact-value"><i className="fas fa-location-dot" aria-hidden="true"></i> Göksu Mahallesi, Celal Bayar Cad. 98/A<br />Silifke/Mersin</p>
               </div>
             </div>
           </div>

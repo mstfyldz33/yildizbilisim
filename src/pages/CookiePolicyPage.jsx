@@ -130,8 +130,9 @@ const CookiePolicyPage = () => {
               <p>
                 <strong>Yıldız Global Teknoloji ve Güvenlik Sistemleri Ltd. Şti.</strong><br />
                 <strong>Marka:</strong> Yıldız Bilişim İletişim<br />
-                <strong>E-posta:</strong> info@yildizbilisim.com<br />
-                <strong>Telefon:</strong> +90 XXX XXX XX XX
+                <strong>Adres:</strong> Göksu Mahallesi, Celal Bayar Cad. 98/A, Silifke/Mersin<br />
+                <strong>E-posta:</strong> info@yildizcloud.com<br />
+                <strong>Telefon:</strong> 0541 506 04 04
               </p>
             </div>
 

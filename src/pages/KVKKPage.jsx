@@ -23,8 +23,8 @@ const KVKKPage = () => {
               <p>
                 <strong>Şirket Unvanı:</strong> Yıldız Global Teknoloji ve Güvenlik Sistemleri Ltd. Şti.<br />
                 <strong>Marka:</strong> Yıldız Bilişim İletişim<br />
-                <strong>Adres:</strong> Silifke, Mersin<br />
-                <strong>E-posta:</strong> info@yildizbilisim.com<br />
+                <strong>Adres:</strong> Göksu Mahallesi, Celal Bayar Cad. 98/A, Silifke/Mersin<br />
+                <strong>E-posta:</strong> info@yildizcloud.com<br />
                 <strong>Telefon:</strong> +90 XXX XXX XX XX
               </p>
             </div>
