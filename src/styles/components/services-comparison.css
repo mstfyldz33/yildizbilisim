@@ -372,9 +372,11 @@
     }
 
     .table-footer-row {
-        padding: 1.5rem 1rem;
+        padding: 1rem 0.75rem;
         border-bottom: none;
         background: var(--color-gray-50);
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 0.5rem;
     }
 
     .table-footer-feature {
@@ -384,6 +386,18 @@
     .table-footer-package {
         display: flex;
         justify-content: center;
+        min-width: 0;
+    }
+
+    .table-footer-package .btn {
+        width: 100%;
+        max-width: 100%;
+        padding: 0.6rem 0.5rem;
+        font-size: 0.8rem;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        border-radius: var(--radius-md);
     }
 
     .btn-sm {
@@ -394,11 +408,25 @@
 
 @media (max-width: 480px) {
     .table-header-row,
-    .table-feature-row,
-    .table-footer-row {
+    .table-feature-row {
         grid-template-columns: 1fr repeat(4, 50px);
         gap: 0.25rem;
         padding: 0.75rem 0.5rem;
+    }
+
+    .table-footer-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.5rem;
+        padding: 1rem 0.75rem;
+    }
+
+    .table-footer-feature {
+        display: none;
+    }
+
+    .table-footer-package {
+        min-width: 0;
     }
 
     .table-feature-name {

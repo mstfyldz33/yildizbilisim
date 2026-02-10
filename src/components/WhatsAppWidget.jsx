@@ -15,7 +15,6 @@ const WhatsAppWidget = () => {
       tabIndex={0}
     >
       <i className="fab fa-whatsapp" aria-hidden="true"></i>
-      <span className="whatsapp-text">WhatsApp</span>
     </a>
   )
 }

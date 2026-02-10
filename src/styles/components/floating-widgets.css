@@ -1,0 +1,97 @@
+/* Back to top + WhatsApp floating buttons */
+
+.back-to-top {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    width: 48px;
+    height: 48px;
+    border-radius: var(--radius-lg, 12px);
+    border: 1px solid var(--color-gray-300, #d1d5db);
+    background: var(--color-white, #fff);
+    color: var(--color-gray-800, #1f2937);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: var(--shadow-md, 0 4px 6px -1px rgb(0 0 0 / 0.1));
+    z-index: 900;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s ease, visibility 0.2s ease, transform 0.2s ease;
+}
+
+.back-to-top.visible {
+    opacity: 1;
+    visibility: visible;
+}
+
+.back-to-top:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg, 0 10px 15px -3px rgb(0 0 0 / 0.1));
+}
+
+.back-to-top i {
+    font-size: 1.1rem;
+}
+
+.whatsapp-widget {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: #25D366;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: var(--shadow-md, 0 4px 6px -1px rgb(0 0 0 / 0.1));
+    z-index: 901;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.whatsapp-widget:hover {
+    transform: scale(1.08);
+    box-shadow: 0 6px 12px rgba(37, 211, 102, 0.4);
+}
+
+.whatsapp-widget i {
+    font-size: 1.5rem;
+}
+
+/* When both visible: back-to-top left of WhatsApp */
+.back-to-top.visible {
+    right: 88px;
+}
+
+.whatsapp-widget {
+    right: 24px;
+}
+
+/* Mobile: spacing + safe area, no overlap */
+@media (max-width: 768px) {
+    .back-to-top,
+    .back-to-top.visible {
+        bottom: calc(18px + env(safe-area-inset-bottom, 0));
+        right: calc(68px + env(safe-area-inset-right, 0)); /* solunda: WhatsApp 44px + 12px boşluk */
+        width: 44px;
+        height: 44px;
+    }
+
+    .whatsapp-widget {
+        bottom: calc(18px + env(safe-area-inset-bottom, 0));
+        right: calc(18px + env(safe-area-inset-right, 0));
+        width: 44px;
+        height: 44px;
+    }
+
+    .whatsapp-widget i {
+        font-size: 1.35rem;
+    }
+
+    .back-to-top i {
+        font-size: 1rem;
+    }
+}

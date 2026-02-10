@@ -25,6 +25,7 @@
 @import './components/gallery.css';
 @import './components/careers.css';
 @import './components/newsletter.css';
+@import './components/floating-widgets.css';
 
 /* Pages */
 @import './pages/legal.css';
