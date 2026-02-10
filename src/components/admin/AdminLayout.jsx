@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
-import { Link, Outlet, useNavigate } from 'react-router-dom'
+import { Link, NavLink, Outlet, useNavigate } from 'react-router-dom'
 import { useAuth } from '../../contexts/AuthContext'
+import '../../styles/admin-common.css'
 import './AdminLayout.css'
 
 const AdminLayout = () => {
@@ -69,54 +70,54 @@ const AdminLayout = () => {
           </div>
         </div>
         <nav className="admin-nav">
-          <Link to="/admin/dashboard" className="admin-nav-item">
+          <NavLink to="/admin/dashboard" end className={({ isActive }) => 'admin-nav-item' + (isActive ? ' active' : '')} onClick={closeSidebar}>
             <i className="fas fa-chart-line"></i>
             <span>Dashboard</span>
-          </Link>
-          <Link to="/admin/blog" className="admin-nav-item">
+          </NavLink>
+          <NavLink to="/admin/blog" className={({ isActive }) => 'admin-nav-item' + (isActive ? ' active' : '')} onClick={closeSidebar}>
             <i className="fas fa-newspaper"></i>
             <span>Blog Yönetimi</span>
-          </Link>
-          <Link to="/admin/projects" className="admin-nav-item">
+          </NavLink>
+          <NavLink to="/admin/projects" className={({ isActive }) => 'admin-nav-item' + (isActive ? ' active' : '')} onClick={closeSidebar}>
             <i className="fas fa-project-diagram"></i>
             <span>Proje Yönetimi</span>
-          </Link>
-          <Link to="/admin/testimonials" className="admin-nav-item">
+          </NavLink>
+          <NavLink to="/admin/testimonials" className={({ isActive }) => 'admin-nav-item' + (isActive ? ' active' : '')} onClick={closeSidebar}>
             <i className="fas fa-comments"></i>
             <span>Müşteri Yorumları</span>
-          </Link>
-          <Link to="/admin/messages" className="admin-nav-item">
+          </NavLink>
+          <NavLink to="/admin/messages" className={({ isActive }) => 'admin-nav-item' + (isActive ? ' active' : '')} onClick={closeSidebar}>
             <i className="fas fa-envelope"></i>
             <span>İletişim Mesajları</span>
-          </Link>
-          <Link to="/admin/applications" className="admin-nav-item">
+          </NavLink>
+          <NavLink to="/admin/applications" className={({ isActive }) => 'admin-nav-item' + (isActive ? ' active' : '')} onClick={closeSidebar}>
             <i className="fas fa-briefcase"></i>
             <span>İş Başvuruları</span>
-          </Link>
-          <Link to="/admin/gallery" className="admin-nav-item">
+          </NavLink>
+          <NavLink to="/admin/gallery" className={({ isActive }) => 'admin-nav-item' + (isActive ? ' active' : '')} onClick={closeSidebar}>
             <i className="fas fa-images"></i>
             <span>Galeri Yönetimi</span>
-          </Link>
-          <Link to="/admin/project-images" className="admin-nav-item">
+          </NavLink>
+          <NavLink to="/admin/project-images" className={({ isActive }) => 'admin-nav-item' + (isActive ? ' active' : '')} onClick={closeSidebar}>
             <i className="fas fa-camera"></i>
             <span>Proje Görselleri</span>
-          </Link>
-          <Link to="/admin/slider" className="admin-nav-item">
+          </NavLink>
+          <NavLink to="/admin/slider" className={({ isActive }) => 'admin-nav-item' + (isActive ? ' active' : '')} onClick={closeSidebar}>
             <i className="fas fa-sliders"></i>
             <span>Slider Yönetimi</span>
-          </Link>
-          <Link to="/admin/services" className="admin-nav-item">
+          </NavLink>
+          <NavLink to="/admin/services" className={({ isActive }) => 'admin-nav-item' + (isActive ? ' active' : '')} onClick={closeSidebar}>
             <i className="fas fa-concierge-bell"></i>
             <span>Hizmetler (Bireysel)</span>
-          </Link>
-          <Link to="/admin/package-comparison" className="admin-nav-item">
+          </NavLink>
+          <NavLink to="/admin/package-comparison" className={({ isActive }) => 'admin-nav-item' + (isActive ? ' active' : '')} onClick={closeSidebar}>
             <i className="fas fa-table"></i>
             <span>Paket Karşılaştırma</span>
-          </Link>
-          <Link to="/admin/visit-logs" className="admin-nav-item">
+          </NavLink>
+          <NavLink to="/admin/visit-logs" className={({ isActive }) => 'admin-nav-item' + (isActive ? ' active' : '')} onClick={closeSidebar}>
             <i className="fas fa-chart-line"></i>
             <span>Ziyaret Logları & IP Takibi</span>
-          </Link>
+          </NavLink>
           <Link to="/" className="admin-nav-item" onClick={closeSidebar}>
             <i className="fas fa-home"></i>
             <span>Ana Siteye Dön</span>

@@ -12,6 +12,10 @@ dist/
 .env.production
 .env.development
 
+# Firebase service account (sync script için — asla commit etmeyin)
+service-account*.json
+*-service-account*.json
+
 # OS files
 .DS_Store
 Thumbs.db

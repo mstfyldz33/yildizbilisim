@@ -16,4 +16,4 @@ User-agent: DotBot
 Crawl-delay: 10
 
 # Sitemap
-Sitemap: https://yildizbilisim.com/sitemap.xml
+Sitemap: https://yildizcloud.com/sitemap.xml

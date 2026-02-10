@@ -7,7 +7,8 @@
     "dev": "vite",
     "build": "vite build",
     "start": "node server.js",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "sync-google-reviews": "node scripts/sync-google-reviews.js"
   },
   "engines": {
     "node": ">=18"
@@ -15,6 +16,7 @@
   "dependencies": {
     "express": "^4.22.1",
     "firebase": "^10.7.1",
+    "heic2any": "^0.0.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.20.0",
@@ -24,6 +26,8 @@
     "@types/react": "^18.2.43",
     "@types/react-dom": "^18.2.17",
     "@vitejs/plugin-react": "^4.2.1",
+    "dotenv": "^16.3.1",
+    "firebase-admin": "^12.0.0",
     "terser": "^5.44.1",
     "vite": "^5.0.8"
   }

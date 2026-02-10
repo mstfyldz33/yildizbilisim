@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { db } from '../lib/firebase'
-import { collection, query, where, orderBy, getDocs } from 'firebase/firestore'
-import LazyImage from './LazyImage'
+import { collection, getDocs } from 'firebase/firestore'
 
 const Gallery = () => {
   const [lightboxOpen, setLightboxOpen] = useState(false)
@@ -15,39 +14,38 @@ const Gallery = () => {
 
   const fetchGalleryImages = async () => {
     try {
-      // Önce gallery collection'ını kontrol et
-      const galleryQuery = query(collection(db, 'gallery'), orderBy('created_at', 'desc'))
-      const gallerySnapshot = await getDocs(galleryQuery)
-      
+      const gallerySnapshot = await getDocs(collection(db, 'gallery'))
+
       if (!gallerySnapshot.empty) {
         const items = gallerySnapshot.docs.map((doc) => {
           const data = doc.data()
+          const createdAt = data.created_at?.toMillis?.() ?? data.created_at ?? 0
           return {
             title: data.title || 'Galeri Öğesi',
-            count: data.count || data.description || '',
-            image: data.image_url
+            count: data.count ?? data.description ?? '',
+            image: data.image_url,
+            _sort: createdAt
           }
         })
-        setGalleryItems(items)
+        items.sort((a, b) => (b._sort || 0) - (a._sort || 0))
+        setGalleryItems(items.map(({ _sort, ...item }) => item))
       } else {
-        // Fallback: project_images collection'ını kullan
-        const projectQuery = query(
-          collection(db, 'project_images'),
-          where('category', '==', 'project'),
-          orderBy('created_at', 'desc')
-        )
-        const projectSnapshot = await getDocs(projectQuery)
-        
-        if (!projectSnapshot.empty) {
-          const items = projectSnapshot.docs.map((doc, idx) => {
+        const projectSnapshot = await getDocs(collection(db, 'project_images'))
+        const projectItems = projectSnapshot.docs
+          .filter((d) => d.data().category === 'project')
+          .map((doc, idx) => {
             const data = doc.data()
+            const createdAt = data.created_at?.toMillis?.() ?? data.created_at ?? 0
             return {
               title: data.title || `Proje ${idx + 1}`,
-              count: data.description || '',
-              image: data.image_url
+              count: data.description ?? '',
+              image: data.image_url,
+              _sort: createdAt
             }
           })
-          setGalleryItems(items)
+        projectItems.sort((a, b) => (b._sort || 0) - (a._sort || 0))
+        if (projectItems.length > 0) {
+          setGalleryItems(projectItems.map(({ _sort, ...item }) => item))
         } else {
           setGalleryItems(getDefaultGalleryItems())
         }

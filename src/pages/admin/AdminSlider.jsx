@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { db, storage } from '../../lib/firebase'
-import { collection, query, orderBy, getDocs, doc, addDoc, updateDoc, deleteDoc, serverTimestamp, limit } from 'firebase/firestore'
+import { useToast } from '../../components/Toast'
+import { collection, getDocs, doc, addDoc, updateDoc, deleteDoc, serverTimestamp } from 'firebase/firestore'
 import { ref, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage'
 import './AdminSlider.css'
 
 const AdminSlider = () => {
+  const { showToast } = useToast()
   const [slides, setSlides] = useState([])
   const [loading, setLoading] = useState(true)
   const [showModal, setShowModal] = useState(false)
@@ -30,18 +32,31 @@ const AdminSlider = () => {
     fetchSlides()
   }, [])
 
+  const parseButtons = (buttons) => {
+    if (Array.isArray(buttons)) return buttons
+    if (typeof buttons === 'string') {
+      try {
+        return JSON.parse(buttons) || []
+      } catch {
+        return []
+      }
+    }
+    return []
+  }
+
   const fetchSlides = async () => {
     try {
-      const q = query(collection(db, 'hero_slides'), orderBy('order_index', 'asc'))
-      const querySnapshot = await getDocs(q)
-      const slidesData = querySnapshot.docs.map(doc => {
-        const data = doc.data()
+      const querySnapshot = await getDocs(collection(db, 'hero_slides'))
+      const slidesData = querySnapshot.docs.map((snap) => {
+        const data = snap.data()
         return {
-          id: doc.id,
+          id: snap.id,
           ...data,
-          buttons: typeof data.buttons === 'string' ? JSON.parse(data.buttons) : data.buttons || []
+          order_index: data.order_index ?? 999999,
+          buttons: parseButtons(data.buttons)
         }
       })
+      slidesData.sort((a, b) => (a.order_index ?? 999999) - (b.order_index ?? 999999))
       setSlides(slidesData)
     } catch (error) {
       console.error('Error fetching slides:', error)
@@ -70,26 +85,30 @@ const AdminSlider = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+    if (formData.media_type === 'image' && !formData.image_url?.trim()) {
+      alert('Resim seçiliyken bir slider resmi yüklemeniz veya URL girmeniz gerekir.')
+      return
+    }
     try {
-      let slideData = {
+      const baseData = {
         ...formData,
         buttons: formData.buttons,
         video_autoplay: formData.video_autoplay !== undefined ? formData.video_autoplay : true,
         video_muted: formData.video_muted !== undefined ? formData.video_muted : true,
         video_loop: formData.video_loop !== undefined ? formData.video_loop : true,
-        created_at: editingSlide ? undefined : serverTimestamp(),
         updated_at: serverTimestamp()
       }
 
       if (editingSlide) {
-        await updateDoc(doc(db, 'hero_slides', editingSlide.id), slideData)
+        await updateDoc(doc(db, 'hero_slides', editingSlide.id), baseData)
       } else {
-        const q = query(collection(db, 'hero_slides'), orderBy('order_index', 'desc'), limit(1))
-        const snapshot = await getDocs(q)
-        const nextOrder = snapshot.empty ? 0 : (snapshot.docs[0].data().order_index || 0) + 1
-        
+        const snapshot = await getDocs(collection(db, 'hero_slides'))
+        const existingOrders = snapshot.docs.map((d) => d.data().order_index).filter((n) => typeof n === 'number')
+        const nextOrder = existingOrders.length ? Math.max(...existingOrders, 0) + 1 : 0
+
         await addDoc(collection(db, 'hero_slides'), {
-          ...slideData,
+          ...baseData,
+          created_at: serverTimestamp(),
           order_index: nextOrder
         })
       }
@@ -159,9 +178,10 @@ const AdminSlider = () => {
       await uploadBytes(storageRef, file)
       const publicUrl = await getDownloadURL(storageRef)
       setFormData({ ...formData, image_url: publicUrl })
+      showToast('Resim yüklendi. Kaydet butonuna basarak slide\'ı güncelleyin.', 'success')
     } catch (error) {
       console.error('Error uploading image:', error)
-      alert('Resim yüklenirken hata oluştu: ' + error.message)
+      showToast('Resim yüklenemedi: ' + (error.message || 'Bilinmeyen hata'), 'error')
     } finally {
       setUploading(false)
     }
@@ -282,7 +302,7 @@ const AdminSlider = () => {
                   </td>
                   <td>{slide.title}</td>
                   <td><i className={`fas ${slide.icon}`}></i></td>
-                  <td>{typeof slide.buttons === 'string' ? JSON.parse(slide.buttons).length : (slide.buttons || []).length}</td>
+                  <td>{parseButtons(slide.buttons).length}</td>
                   <td>
                     <div className="admin-actions">
                       <button onClick={() => handleEdit(slide)} className="admin-btn-edit">

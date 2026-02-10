@@ -87,17 +87,18 @@ const Testimonials = () => {
 
   const fetchTestimonials = async () => {
     try {
-      const q = query(
-        collection(db, 'testimonials'),
-        orderBy('created_at', 'desc'),
-        limit(10)
-      )
-      const querySnapshot = await getDocs(q)
-      const testimonialsData = querySnapshot.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data()
-      }))
-      setTestimonials(testimonialsData)
+      const [testimonialsSnap, googleSnap] = await Promise.all([
+        getDocs(query(collection(db, 'testimonials'), orderBy('created_at', 'desc'), limit(10))),
+        getDocs(query(collection(db, 'google_reviews'), orderBy('created_at', 'desc'), limit(10)))
+      ])
+      const fromFirestore = testimonialsSnap.docs.map(doc => ({ id: doc.id, ...doc.data(), source: 'firestore' }))
+      const fromGoogle = googleSnap.docs.map(doc => ({ id: doc.id, ...doc.data(), source: 'google' }))
+      const merged = [...fromFirestore, ...fromGoogle].sort((a, b) => {
+        const at = a.created_at?.toMillis?.() ?? a.created_at ?? 0
+        const bt = b.created_at?.toMillis?.() ?? b.created_at ?? 0
+        return bt - at
+      }).slice(0, 15)
+      setTestimonials(merged)
     } catch (error) {
       console.error('Error fetching testimonials:', error)
       setTestimonials([])

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { db, storage } from '../../lib/firebase'
-import { collection, query, orderBy, getDocs, doc, addDoc, updateDoc, deleteDoc, serverTimestamp } from 'firebase/firestore'
+import { collection, getDocs, doc, addDoc, updateDoc, deleteDoc, serverTimestamp } from 'firebase/firestore'
 import { ref, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage'
 import { useToast } from '../../components/Toast'
 import './AdminGallery.css'
@@ -25,13 +25,14 @@ const AdminGallery = () => {
 
   const fetchGalleryItems = async () => {
     try {
-      const q = query(collection(db, 'gallery'), orderBy('created_at', 'desc'))
-      const querySnapshot = await getDocs(q)
-      const itemsData = querySnapshot.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data()
+      const querySnapshot = await getDocs(collection(db, 'gallery'))
+      const itemsData = querySnapshot.docs.map((d) => ({
+        id: d.id,
+        ...d.data(),
+        _sort: d.data().created_at?.toMillis?.() ?? d.data().created_at ?? 0
       }))
-      setGalleryItems(itemsData)
+      itemsData.sort((a, b) => (b._sort || 0) - (a._sort || 0))
+      setGalleryItems(itemsData.map(({ _sort, ...item }) => item))
     } catch (error) {
       console.error('Error fetching gallery items:', error)
     } finally {
@@ -39,31 +40,66 @@ const AdminGallery = () => {
     }
   }
 
+  const isHeic = (file) => {
+    const name = (file.name || '').toLowerCase()
+    const type = (file.type || '').toLowerCase()
+    return name.endsWith('.heic') || name.endsWith('.heif') || type === 'image/heic' || type === 'image/heif'
+  }
+
+  const withTimeout = (promise, ms, label) => {
+    return Promise.race([
+      promise,
+      new Promise((_, reject) =>
+        setTimeout(() => reject(new Error(`${label} çok uzun sürdü (${ms / 1000}s). Tekrar deneyin veya JPG kullanın.`)), ms)
+      )
+    ])
+  }
+
   const handleImageUpload = async (e) => {
     const file = e.target.files[0]
     if (!file) return
 
-    if (!file.type.startsWith('image/')) {
-      showToast('Lütfen bir resim dosyası seçin!', 'warning')
+    const validImage = file.type.startsWith('image/') || isHeic(file)
+    if (!validImage) {
+      showToast('Lütfen bir resim dosyası seçin (JPG, PNG, HEIC vb.)!', 'warning')
       return
     }
 
     setUploading(true)
     try {
-      const fileExt = file.name.split('.').pop()
+      let blobToUpload = file
+      let fileExt = file.name.split('.').pop()
+
+      if (isHeic(file)) {
+        try {
+          const heic2any = (await import('heic2any')).default
+          const convertPromise = heic2any({ blob: file, toType: 'image/jpeg', quality: 0.8 })
+          const converted = await withTimeout(convertPromise, 20000, 'HEIC dönüşümü')
+          blobToUpload = Array.isArray(converted) ? converted[0] : converted
+          fileExt = 'jpg'
+        } catch (convertErr) {
+          console.error('HEIC conversion error:', convertErr)
+          showToast(convertErr.message || 'HEIC dönüştürülemedi. Lütfen bilgisayarda JPG/PNG\'ye çevirip yükleyin.', 'error')
+          setUploading(false)
+          e.target.value = ''
+          return
+        }
+      }
+
       const fileName = `${Date.now()}_${Math.random().toString(36).substring(7)}.${fileExt}`
       const filePath = `images/gallery/${fileName}`
       const storageRef = ref(storage, filePath)
 
-      await uploadBytes(storageRef, file)
-      const publicUrl = await getDownloadURL(storageRef)
-      setFormData({ ...formData, image_url: publicUrl })
+      const uploadPromise = uploadBytes(storageRef, blobToUpload).then(() => getDownloadURL(storageRef))
+      const publicUrl = await withTimeout(uploadPromise, 30000, 'Yükleme')
+      setFormData((prev) => ({ ...prev, image_url: publicUrl }))
       showToast('Resim yüklendi!', 'success')
     } catch (error) {
       console.error('Error uploading image:', error)
-      showToast('Resim yüklenirken hata oluştu: ' + error.message, 'error')
+      showToast(error.message || 'Resim yüklenirken hata: ' + (error.message || 'Bilinmeyen hata'), 'error')
     } finally {
       setUploading(false)
+      e.target.value = ''
     }
   }
 
@@ -87,16 +123,18 @@ const AdminGallery = () => {
   const handleSubmit = async (e) => {
     e.preventDefault()
     try {
-      const itemData = {
+      const baseData = {
         ...formData,
-        created_at: editingItem ? undefined : serverTimestamp(),
         updated_at: serverTimestamp()
       }
-      
+
       if (editingItem) {
-        await updateDoc(doc(db, 'gallery', editingItem.id), itemData)
+        await updateDoc(doc(db, 'gallery', editingItem.id), baseData)
       } else {
-        await addDoc(collection(db, 'gallery'), itemData)
+        await addDoc(collection(db, 'gallery'), {
+          ...baseData,
+          created_at: serverTimestamp()
+        })
       }
       
       setShowModal(false)
@@ -265,7 +303,7 @@ const AdminGallery = () => {
                   <div className="admin-upload-area">
                     <input
                       type="file"
-                      accept="image/*"
+                      accept="image/*,image/heic,image/heif,.heic,.heif"
                       onChange={handleImageUpload}
                       disabled={uploading}
                       className="admin-file-input"
@@ -275,6 +313,7 @@ const AdminGallery = () => {
                         <i className="fas fa-spinner fa-spin"></i> Yükleniyor...
                       </div>
                     )}
+                    <p className="admin-upload-hint">JPG, PNG, WebP veya HEIC (iPhone) desteklenir. HEIC otomatik JPEG'e dönüştürülür.</p>
                   </div>
                 )}
               </div>

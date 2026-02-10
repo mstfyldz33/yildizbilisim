@@ -1,0 +1,327 @@
+/* Ana sayfa - Proje Galerisi bölümü */
+
+.gallery {
+  padding: var(--spacing-3xl) 0;
+  background: var(--color-gray-50);
+}
+
+.gallery .container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--spacing-lg);
+}
+
+.gallery-header {
+  text-align: center;
+  margin-bottom: var(--spacing-2xl);
+}
+
+.gallery-header h2 {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--color-gray-900);
+  margin: 0 0 0.5rem 0;
+  letter-spacing: -0.02em;
+}
+
+.gallery-header h2::after {
+  content: '';
+  display: block;
+  width: 60px;
+  height: 4px;
+  margin: 0.75rem auto 0;
+  background: var(--gradient-hero);
+  border-radius: var(--radius-full);
+}
+
+.gallery-header p {
+  color: var(--color-gray-600);
+  font-size: 1.0625rem;
+  margin-top: 0.5rem;
+}
+
+/* Grid */
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.gallery-item {
+  position: relative;
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  background: var(--color-white);
+  box-shadow: var(--shadow-md);
+  cursor: pointer;
+  transition: transform var(--transition-base), box-shadow var(--transition-base);
+  aspect-ratio: 4 / 3;
+}
+
+.gallery-item:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-xl);
+}
+
+.gallery-item:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+.gallery-image {
+  position: absolute;
+  inset: 0;
+  background: var(--color-gray-200);
+}
+
+.gallery-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform var(--transition-slow);
+}
+
+.gallery-item:hover .gallery-image img {
+  transform: scale(1.05);
+}
+
+.gallery-image-fallback {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-gray-200);
+  color: var(--color-gray-400);
+  font-size: 3rem;
+}
+
+.gallery-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(15, 23, 42, 0.9) 0%, transparent 50%);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 1.25rem;
+  opacity: 0;
+  transition: opacity var(--transition-base);
+}
+
+.gallery-item:hover .gallery-overlay {
+  opacity: 1;
+}
+
+.gallery-overlay h4 {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: white;
+  margin: 0 0 0.25rem 0;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.gallery-overlay p {
+  font-size: 0.875rem;
+  color: rgba(255, 255, 255, 0.9);
+  margin: 0 0 0.75rem 0;
+  line-height: 1.4;
+}
+
+.gallery-btn {
+  align-self: flex-start;
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-full);
+  border: none;
+  background: white;
+  color: var(--color-primary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.125rem;
+  transition: transform var(--transition-fast), background var(--transition-fast);
+  box-shadow: var(--shadow-md);
+}
+
+.gallery-btn:hover {
+  background: var(--color-primary);
+  color: white;
+  transform: scale(1.08);
+}
+
+/* Boş durum */
+.gallery .admin-empty {
+  text-align: center;
+  padding: 3rem 1.5rem;
+  color: var(--color-gray-500);
+  font-size: 1rem;
+  background: var(--color-white);
+  border-radius: var(--radius-xl);
+  border: 2px dashed var(--color-gray-300);
+}
+
+/* Lightbox */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.95);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  opacity: 0;
+  animation: lightboxFadeIn 0.25s ease forwards;
+}
+
+.lightbox.active {
+  opacity: 1;
+}
+
+@keyframes lightboxFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.lightbox-content {
+  position: relative;
+  max-width: 90vw;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.lightbox-close {
+  position: absolute;
+  top: -48px;
+  right: 0;
+  width: 44px;
+  height: 44px;
+  border: none;
+  background: rgba(255, 255, 255, 0.15);
+  color: white;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  transition: background var(--transition-fast);
+  z-index: 10;
+}
+
+.lightbox-close:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+.lightbox-prev,
+.lightbox-next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 48px;
+  height: 48px;
+  border: none;
+  background: rgba(255, 255, 255, 0.15);
+  color: white;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  transition: background var(--transition-fast);
+  z-index: 10;
+}
+
+.lightbox-prev {
+  left: -56px;
+}
+
+.lightbox-next {
+  right: -56px;
+}
+
+.lightbox-prev:hover,
+.lightbox-next:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.lightbox-image-container {
+  background: var(--color-gray-900);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  max-width: 85vw;
+  max-height: 75vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: var(--shadow-2xl);
+}
+
+.lightbox-image {
+  max-width: 100%;
+  max-height: 65vh;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  display: block;
+}
+
+.lightbox-info {
+  padding: 1rem 1.25rem;
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  text-align: center;
+}
+
+.lightbox-info h3 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin: 0 0 0.25rem 0;
+}
+
+.lightbox-info p {
+  font-size: 0.875rem;
+  color: rgba(255, 255, 255, 0.85);
+  margin: 0;
+}
+
+.lightbox-content .gallery-image {
+  position: relative;
+  width: 300px;
+  height: 200px;
+  margin: 0 auto;
+  border-radius: var(--radius-lg);
+}
+
+.lightbox-content .gallery-image i {
+  font-size: 4rem;
+  color: var(--color-gray-500);
+}
+
+@media (max-width: 768px) {
+  .gallery-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .gallery-header h2 {
+    font-size: 1.5rem;
+  }
+
+  .lightbox-prev {
+    left: 0.5rem;
+  }
+
+  .lightbox-next {
+    right: 0.5rem;
+  }
+
+  .lightbox-close {
+    top: 0.5rem;
+    right: 0.5rem;
+  }
+}

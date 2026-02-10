@@ -1,10 +1,16 @@
 #!/bin/bash
 set -e
 
-# Configuration - UPDATE THESE VALUES
-VPS_USER="your-username"
-VPS_HOST="your-vps-ip-or-domain"
-VPS_PATH="/var/www/yildizcloud.com"
+# Configuration (varsayılanlar; .env varsa oradan okunur)
+VPS_USER="${VPS_USER:-root}"
+VPS_HOST="${VPS_HOST:-72.62.151.173}"
+VPS_PATH="${VPS_PATH:-/var/www/yildizcloud.com}"
+
+if [ -f .env ]; then
+  set -a
+  source .env
+  set +a
+fi
 
 echo "🚀 Starting deployment..."
 

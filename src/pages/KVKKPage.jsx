@@ -25,7 +25,7 @@ const KVKKPage = () => {
                 <strong>Marka:</strong> Yıldız Bilişim İletişim<br />
                 <strong>Adres:</strong> Göksu Mahallesi, Celal Bayar Cad. 98/A, Silifke/Mersin<br />
                 <strong>E-posta:</strong> info@yildizcloud.com<br />
-                <strong>Telefon:</strong> +90 XXX XXX XX XX
+                <strong>Telefon:</strong> 0541 506 04 04
               </p>
             </div>
 

@@ -4,7 +4,13 @@ import Layout from '../components/Layout'
 
 const NotFoundPage = () => {
   return (
-    <Layout>
+    <Layout
+      seo={{
+        title: 'Sayfa Bulunamadı - Yıldız Bilişim',
+        description: 'Aradığınız sayfa mevcut değil veya taşınmış olabilir.',
+        noindex: true
+      }}
+    >
       <section className="not-found">
         <div className="container">
           <div className="not-found-content">

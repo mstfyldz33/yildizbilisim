@@ -9,7 +9,7 @@ export default defineConfig(({ mode }) => ({
   } : undefined,
   build: {
     outDir: 'dist',
-    assetsDir: '', // Kök dizinde: /xxx.js yerine /assets/xxx.js — Hostinger /assets/ yolunda 503 veriyor
+    assetsDir: '',
     rollupOptions: {
       output: {
         manualChunks: {

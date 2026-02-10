@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { db } from '../lib/firebase'
-import { collection, query, orderBy, getDocs } from 'firebase/firestore'
+import { collection, getDocs } from 'firebase/firestore'
 
 const HeroSlider = () => {
   const [currentSlide, setCurrentSlide] = useState(0)
@@ -13,22 +13,33 @@ const HeroSlider = () => {
     fetchSlides()
   }, [])
 
+  const parseButtons = (buttons) => {
+    if (Array.isArray(buttons)) return buttons
+    if (typeof buttons === 'string') {
+      try {
+        return JSON.parse(buttons) || []
+      } catch {
+        return []
+      }
+    }
+    return []
+  }
+
   const fetchSlides = async () => {
     try {
-      const q = query(collection(db, 'hero_slides'), orderBy('order_index', 'asc'))
-      const querySnapshot = await getDocs(q)
-      
+      const querySnapshot = await getDocs(collection(db, 'hero_slides'))
+
       if (!querySnapshot.empty) {
-        const formattedSlides = querySnapshot.docs.map(doc => {
-          const data = doc.data()
+        const formattedSlides = querySnapshot.docs.map((snap) => {
+          const data = snap.data()
           return {
-            id: doc.id,
+            id: snap.id,
             ...data,
-            buttons: typeof data.buttons === 'string' 
-              ? JSON.parse(data.buttons) 
-              : data.buttons || []
+            order_index: data.order_index ?? 999999,
+            buttons: parseButtons(data.buttons)
           }
         })
+        formattedSlides.sort((a, b) => (a.order_index ?? 999999) - (b.order_index ?? 999999))
         setSlides(formattedSlides)
       } else {
         setSlides(getDefaultSlides())
