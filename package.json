@@ -8,7 +8,8 @@
     "build": "vite build",
     "start": "node server.js",
     "preview": "vite preview",
-    "sync-google-reviews": "node scripts/sync-google-reviews.js"
+"sync-google-reviews": "node scripts/sync-google-reviews.js",
+    "deploy:git": "npm run build"
   },
   "engines": {
     "node": ">=18"

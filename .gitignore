@@ -1,8 +1,8 @@
 # Dependencies
 node_modules/
 
-# Build output
-dist/
+# Build output — dist/ repoda tutulur (Plesk Git: document root = dist)
+# dist/
 .vite
 
 # Environment variables
