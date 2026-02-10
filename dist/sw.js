@@ -6,7 +6,7 @@ const RUNTIME_CACHE = 'yildizbilisim-runtime'
 const PRECACHE_ASSETS = [
   '/',
   '/index.html',
-  '/yildizlogo.jpg',
+  '/logo.png',
   '/favicon.ico',
   '/favicon.svg'
 ]
