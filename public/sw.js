@@ -1,6 +1,6 @@
 // Service Worker for PWA
-const CACHE_NAME = 'yildizbilisim-v1'
-const RUNTIME_CACHE = 'yildizbilisim-runtime'
+const CACHE_NAME = 'yildizbilisim-v2'
+const RUNTIME_CACHE = 'yildizbilisim-runtime-v2'
 
 // Assets to cache on install
 const PRECACHE_ASSETS = [
