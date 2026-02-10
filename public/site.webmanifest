@@ -9,14 +9,14 @@
       "type": "image/svg+xml"
     },
     {
-      "src": "/yildizlogo.jpg",
+      "src": "/logo.png",
       "sizes": "192x192",
-      "type": "image/jpeg"
+      "type": "image/png"
     },
     {
-      "src": "/yildizlogo.jpg",
+      "src": "/logo.png",
       "sizes": "512x512",
-      "type": "image/jpeg"
+      "type": "image/png"
     }
   ],
   "theme_color": "#DC2626",

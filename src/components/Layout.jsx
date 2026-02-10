@@ -15,7 +15,7 @@ const Layout = ({ children, seo }) => {
   const defaultSEO = {
     '/': {
       title: 'Yıldız Bilişim - Silifke Güvenlik Kamera Sistemleri | IP Kamera Kurulum',
-      description: 'Silifke ve çevresinde profesyonel güvenlik kamera sistemleri. IP kamera kurulum, mobil izleme, bulut kayıt hizmetleri. Hikvision, Dahua, Axis markaları. 0541 506 04 04',
+      description: 'Silifke ve çevresinde profesyonel güvenlik kamera sistemleri. IP kamera kurulum, mobil izleme, bulut kayıt hizmetleri. Hikvision, Dahua, Axis markaları. 0 541 506 04 04',
       keywords: 'güvenlik kamera, IP kamera, Silifke, kamera kurulum, güvenlik sistemleri, Hikvision, Dahua, Axis'
     },
     '/about': {
@@ -35,7 +35,7 @@ const Layout = ({ children, seo }) => {
     },
     '/contact': {
       title: 'İletişim - Yıldız Bilişim | Silifke Güvenlik Kamera Sistemleri',
-      description: 'Yıldız Bilişim ile iletişime geçin. Silifke güvenlik kamera sistemleri için teklif alın. Telefon: 0541 506 04 04',
+      description: 'Yıldız Bilişim ile iletişime geçin. Silifke güvenlik kamera sistemleri için teklif alın. Telefon: 0 541 506 04 04',
       keywords: 'iletişim, Yıldız Bilişim telefon, Silifke güvenlik kamera, teklif al'
     },
     '/gallery': {
@@ -104,7 +104,7 @@ const Layout = ({ children, seo }) => {
           fontSize: '12px',
           textAlign: 'center'
         }}>
-          İçerikler Firebase Firestore’dan yüklenir. Boş bölümler = Firestore’da veri yok veya .env eksik. Veri eklemek için /admin
+          İçerikler Firebase Firestore’dan yüklenir. Boş bölümler = Firestore’da veri yok veya .env eksik. Geliştirme: veri /admin üzerinden yönetilir
         </div>
       )}
       <Header />

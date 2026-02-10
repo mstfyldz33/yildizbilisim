@@ -17,7 +17,7 @@ import {
 import { parseDevice } from '../../utils/deviceParser'
 import './AdminDashboard.css'
 
-const COLORS = ['#DC2626', '#2563EB', '#EF4444', '#3B82F6', '#B91C1C', '#1D4ED8', '#991B1B', '#1E40AF']
+const COLORS = ['#DC2626', '#EAB308', '#EF4444', '#FACC15', '#B91C1C', '#CA8A04', '#991B1B', '#A16207']
 
 const AdminDashboard = () => {
   const [stats, setStats] = useState({

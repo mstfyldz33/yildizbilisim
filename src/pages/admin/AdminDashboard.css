@@ -102,7 +102,7 @@
 }
 
 .admin-stat-icon.project {
-  background: linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%);
+  background: var(--gradient-secondary);
 }
 
 .admin-stat-icon.testimonial {
@@ -110,11 +110,11 @@
 }
 
 .admin-stat-icon.message {
-  background: linear-gradient(135deg, #3B82F6 0%, #2563EB 100%);
+  background: linear-gradient(135deg, var(--color-secondary-light) 0%, var(--color-secondary) 100%);
 }
 
 .admin-stat-icon.application {
-  background: linear-gradient(135deg, #DC2626 0%, #2563EB 100%);
+  background: var(--gradient-hero);
 }
 
 .admin-stat-content h3 {
@@ -271,7 +271,7 @@
 .admin-visit-stat i {
   font-size: 2rem;
   color: #DC2626;
-  background: linear-gradient(135deg, #DC2626 0%, #2563EB 100%);
+  background: var(--gradient-hero);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;

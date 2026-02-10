@@ -5,7 +5,7 @@ const SEO = ({
   title, 
   description, 
   keywords, 
-  image = 'https://yildizcloud.com/yildizlogo.jpg',
+  image = 'https://yildizcloud.com/logo.png',
   type = 'website',
   noindex = false
 }) => {

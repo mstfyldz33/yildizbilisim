@@ -187,7 +187,7 @@ const BlogDetailPage = () => {
         title={`${post.title} - Yıldız Bilişim Blog`}
         description={post.excerpt || post.title}
         keywords={post.tags ? (Array.isArray(post.tags) ? post.tags.join(', ') : post.tags) : ''}
-        image={post.image_url || '/yildizlogo.jpg'}
+        image={post.image_url || '/logo.png'}
       />
       <section className="blog-detail-page">
         <div className="container">

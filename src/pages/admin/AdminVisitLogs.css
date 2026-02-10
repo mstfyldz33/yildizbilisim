@@ -78,15 +78,15 @@
 }
 
 .admin-stat-icon.visit {
-  background: linear-gradient(135deg, #3b82f6 0%, #DC2626 100%);
+  background: var(--gradient-hero);
 }
 
 .admin-stat-icon.ip {
-  background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+  background: linear-gradient(135deg, #FACC15 0%, #CA8A04 100%);
 }
 
 .admin-stat-icon.today {
-  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  background: var(--gradient-secondary);
 }
 
 @media (max-width: 768px) {

@@ -26,19 +26,13 @@ rsync -avz --delete \
   dist/ \
   ${VPS_USER}@${VPS_HOST}:${VPS_PATH}/
 
-# Step 3: Set permissions
+# Step 3: Set permissions (VPS_PATH Plesk'ta httpdocs olabilir)
 echo "🔐 Setting permissions..."
-ssh ${VPS_USER}@${VPS_HOST} << 'EOF'
-  sudo chown -R www-data:www-data /var/www/yildizcloud.com
-  sudo find /var/www/yildizcloud.com -type d -exec chmod 755 {} \;
-  sudo find /var/www/yildizcloud.com -type f -exec chmod 644 {} \;
-EOF
+ssh ${VPS_USER}@${VPS_HOST} "sudo chown -R www-data:www-data ${VPS_PATH} && sudo find ${VPS_PATH} -type d -exec chmod 755 {} \; && sudo find ${VPS_PATH} -type f -exec chmod 644 {} \;"
 
-# Step 4: Test and reload Nginx
-echo "🔄 Reloading Nginx..."
-ssh ${VPS_USER}@${VPS_HOST} << 'EOF'
-  sudo nginx -t && sudo systemctl reload nginx
-EOF
+# Step 4: Nginx reload (Plesk + Apache kullanıyorsanız bu adım atlanır)
+echo "🔄 Reloading Nginx (skip if using Plesk Apache only)..."
+ssh ${VPS_USER}@${VPS_HOST} "sudo nginx -t 2>/dev/null && sudo systemctl reload nginx 2>/dev/null || true"
 
 echo "✅ Deployment complete!"
 echo "🌐 Site: https://yildizcloud.com"

@@ -380,7 +380,7 @@
 
 .admin-reset-success i {
   font-size: 3rem;
-  color: #10b981;
+  color: var(--color-accent);
   margin-bottom: 1rem;
 }
 

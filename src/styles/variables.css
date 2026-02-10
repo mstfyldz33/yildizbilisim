@@ -1,13 +1,13 @@
 :root {
-    /* Ana Renkler - Modern Palette */
+    /* Ana Renkler - Kırmızı & Sarı */
     --color-primary: #DC2626;        /* Kırmızı - Ana renk */
     --color-primary-dark: #B91C1C;   /* Koyu kırmızı */
     --color-primary-light: #EF4444;  /* Açık kırmızı */
-    --color-secondary: #2563EB;      /* Mavi - Alt renk */
-    --color-secondary-dark: #1D4ED8; /* Koyu mavi */
-    --color-secondary-light: #3B82F6; /* Açık mavi */
-    --color-accent: #10B981;         /* Yeşil - Accent */
-    --color-warning: #F59E0B;        /* Turuncu - Warning */
+    --color-secondary: #EAB308;      /* Sarı - Alt renk */
+    --color-secondary-dark: #CA8A04; /* Koyu sarı */
+    --color-secondary-light: #FACC15; /* Açık sarı */
+    --color-accent: #F59E0B;         /* Amber - Accent (yeşil yok) */
+    --color-warning: #F59E0B;        /* Amber - Uyarı */
     --color-black: #000000;          /* Siyah */
     --color-dark: #1A1A1A;           /* Koyu gri */
     --color-dark-gray: #1E293B;      /* Koyu gri */
@@ -25,11 +25,11 @@
     --color-gray-800: #1E293B;
     --color-gray-900: #0F172A;
     
-    /* Modern Gradients */
+    /* Modern Gradients - Kırmızı & Sarı */
     --gradient-primary: linear-gradient(135deg, #DC2626 0%, #B91C1C 50%, #991B1B 100%);
-    --gradient-secondary: linear-gradient(135deg, #2563EB 0%, #1D4ED8 50%, #1E40AF 100%);
-    --gradient-hero: linear-gradient(135deg, #DC2626 0%, #2563EB 100%);
-    --gradient-hero-alt: linear-gradient(135deg, rgba(220, 38, 38, 0.95) 0%, rgba(37, 99, 235, 0.95) 100%);
+    --gradient-secondary: linear-gradient(135deg, #EAB308 0%, #CA8A04 50%, #A16207 100%);
+    --gradient-hero: linear-gradient(135deg, #DC2626 0%, #EAB308 100%);
+    --gradient-hero-alt: linear-gradient(135deg, rgba(220, 38, 38, 0.95) 0%, rgba(234, 179, 8, 0.95) 100%);
     --gradient-glass: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
     --gradient-card: linear-gradient(135deg, #FFFFFF 0%, #F8FAFC 100%);
     

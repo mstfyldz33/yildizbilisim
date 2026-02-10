@@ -194,7 +194,7 @@
 }
 
 .feature-item.included .feature-icon {
-    color: #10B981;
+    color: var(--color-accent);
     font-size: 1.2rem;
 }
 
@@ -248,7 +248,7 @@
 }
 
 .comparison-card.package-standard .package-icon {
-    background: linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%);
+    background: var(--gradient-secondary);
 }
 
 .comparison-card.package-premium .package-icon {
@@ -363,7 +363,7 @@
     }
 
     .table-feature-value.included {
-        color: #10B981;
+        color: var(--color-accent);
     }
 
     .table-feature-value.excluded {

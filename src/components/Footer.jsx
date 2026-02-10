@@ -41,7 +41,7 @@ const Footer = () => {
           <div className="footer-section">
             <div className="logo">
               <img 
-                src="/yildizlogo.jpg" 
+                src="/logo.png" 
                 alt="Yıldız Bilişim Logo" 
                 className="logo-image"
                 fetchPriority="low"
@@ -85,8 +85,8 @@ const Footer = () => {
           <div className="footer-section">
             <h4>Sosyal Medya</h4>
             <div className="social-links">
-              <a href="https://www.instagram.com/yildizbilisimiletisim" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i className="fab fa-instagram"></i></a>
-              <a href="https://www.tiktok.com/@yildizbilisim" target="_blank" rel="noopener noreferrer" aria-label="TikTok"><i className="fab fa-tiktok"></i></a>
+              <a href="https://www.instagram.com/yildizbilisimletisim" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i className="fab fa-instagram"></i></a>
+              <a href="https://www.facebook.com/yildizbilisimletisim" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><i className="fab fa-facebook-f"></i></a>
             </div>
           </div>
         </div>

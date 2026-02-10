@@ -135,7 +135,7 @@ const Header = () => {
         <div className="nav-container">
           <Link to="/" className="logo" onClick={closeMenu}>
             <img 
-              src="/yildizlogo.jpg" 
+              src="/logo.png" 
               alt="Yıldız Bilişim Logo" 
               className="logo-image"
               fetchPriority="high"
@@ -174,7 +174,7 @@ const Header = () => {
               <div className="mobile-social-label">Sosyal Medya</div>
               <div className="mobile-social-links">
                 <a 
-                  href="https://www.instagram.com/yildizbilisimiletisim" 
+                  href="https://www.instagram.com/yildizbilisimletisim" 
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="mobile-social-link instagram"
@@ -184,14 +184,14 @@ const Header = () => {
                   <span>Instagram</span>
                 </a>
                 <a 
-                  href="https://www.tiktok.com/@yildizbilisim" 
+                  href="https://www.facebook.com/yildizbilisimletisim" 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="mobile-social-link tiktok"
+                  className="mobile-social-link facebook"
                   onClick={closeMenu}
                 >
-                  <i className="fab fa-tiktok"></i>
-                  <span>TikTok</span>
+                  <i className="fab fa-facebook-f"></i>
+                  <span>Facebook</span>
                 </a>
               </div>
             </li>

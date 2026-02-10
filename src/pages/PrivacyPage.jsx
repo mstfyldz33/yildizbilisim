@@ -140,9 +140,9 @@ const PrivacyPage = () => {
               <p>
                 <strong>Yıldız Global Teknoloji ve Güvenlik Sistemleri Ltd. Şti.</strong><br />
                 <strong>Marka:</strong> Yıldız Bilişim İletişim<br />
-                <strong>Adres:</strong> Göksu Mahallesi, Celal Bayar Cad. 98/A, Silifke/Mersin<br />
+                <strong>Adres:</strong> Göksu Mahallesi Celal Bayar Caddesi 98/A, Silifke/Mersin<br />
                 <strong>E-posta:</strong> info@yildizcloud.com<br />
-                <strong>Telefon:</strong> 0541 506 04 04
+                <strong>Telefon:</strong> 0 541 506 04 04
               </p>
             </div>
 

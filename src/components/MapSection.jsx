@@ -67,8 +67,8 @@ const MapSection = () => {
               <span>Hizmet Alanı (100 km)</span>
             </div>
             <div className="legend-item">
-              <span style={{ display: 'inline-block', width: '20px', height: '20px', background: 'linear-gradient(135deg, #2563eb 0%, #1e40af 100%)', borderRadius: '4px', border: '2px solid white', boxShadow: '0 2px 4px rgba(0,0,0,0.2)' }}></span>
-              <span>Silifke Merkez Ofis — Göksu Mahallesi, Celal Bayar Cad. 98/A</span>
+              <span style={{ display: 'inline-block', width: '20px', height: '20px', background: 'linear-gradient(135deg, #EAB308 0%, #CA8A04 100%)', borderRadius: '4px', border: '2px solid white', boxShadow: '0 2px 4px rgba(0,0,0,0.2)' }}></span>
+              <span>Silifke Merkez Ofis — Göksu Mahallesi Celal Bayar Caddesi 98/A</span>
             </div>
             <p className="legend-note">
               <i className="fas fa-info-circle"></i> Haritada işaretli bölgelerde aktif olarak hizmet veriyoruz. Pinleri tıklayarak detaylı bilgi alabilirsiniz.

@@ -90,7 +90,7 @@
 }
 
 .admin-comparison-table thead {
-    background: linear-gradient(135deg, #DC2626 0%, #2563EB 100%);
+    background: var(--gradient-hero);
     color: white;
 }
 
@@ -149,7 +149,7 @@
 }
 
 .admin-feature-cell i.fa-check {
-    color: #10b981;
+    color: var(--color-accent);
     font-size: 1.2rem;
 }
 

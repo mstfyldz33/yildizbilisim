@@ -5,8 +5,8 @@
 .admin-badge-info {
   display: inline-block;
   padding: 0.5rem 1rem;
-  background: #dbeafe;
-  color: #1e40af;
+  background: #fef9c3;
+  color: #854d0e;
   border-radius: 12px;
   font-size: 0.9rem;
   font-weight: 600;
@@ -43,7 +43,7 @@
 
 .admin-application-item.active {
   background: rgba(37, 99, 235, 0.1);
-  border-color: #2563EB;
+  border-color: var(--color-secondary);
 }
 
 .admin-application-header {

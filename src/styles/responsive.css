@@ -262,7 +262,14 @@
     
     .hero-slider {
         min-height: 90vh;
-        padding: 120px 20px 80px;
+        padding: 0;
+    }
+    
+    .hero-slide-full-image .hero-slide-bg img,
+    .hero-slide-video-bg .hero-video-full,
+    .hero-slide-youtube-bg .hero-youtube-full {
+        object-fit: cover;
+        object-position: center;
     }
     
     .hero-slide-container {

@@ -39,7 +39,7 @@
 
 /* Motivational Section */
 .careers-motivation {
-    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+    background: var(--gradient-hero);
     border-radius: var(--radius-xl);
     padding: 3rem 2rem;
     margin-bottom: 3rem;
@@ -232,9 +232,9 @@
 }
 
 .careers-step.completed .careers-step-number {
-    background: #10B981;
+    background: var(--color-accent);
     color: white;
-    border-color: #10B981;
+    border-color: var(--color-accent);
 }
 
 .careers-step.completed .careers-step-number::after {
@@ -264,7 +264,7 @@
 }
 
 .careers-step-line.completed {
-    background: #10B981;
+    background: var(--color-accent);
 }
 
 /* Step Content */
@@ -446,7 +446,7 @@
 }
 
 .careers-benefits li i {
-    color: #10B981;
+    color: var(--color-accent);
     font-size: 1.1rem;
     width: auto !important;
     height: auto !important;
@@ -630,7 +630,7 @@
     padding: 0.75rem 1rem;
     background: rgba(16, 185, 129, 0.1);
     border-radius: var(--radius-md);
-    color: #059669;
+    color: var(--color-accent);
     font-size: 0.9rem;
     display: flex;
     align-items: center;
@@ -639,7 +639,7 @@
 }
 
 .careers-form .file-selected i {
-    color: #10B981;
+    color: var(--color-accent);
     font-size: 1rem;
 }
 

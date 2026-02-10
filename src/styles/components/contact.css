@@ -124,7 +124,7 @@
     display: inline-block;
     margin-top: 0.8rem;
     padding: 8px 16px;
-    background: #25D366;
+    background: var(--color-primary);
     color: white;
     text-decoration: none;
     border-radius: 8px;
@@ -134,7 +134,7 @@
 }
 
 .whatsapp-btn:hover {
-    background: #20BA5A;
+    background: var(--color-primary-dark);
     color: white;
 }
 

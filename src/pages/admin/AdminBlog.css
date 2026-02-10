@@ -17,7 +17,7 @@
 
 .admin-btn-primary {
   padding: 0.875rem 1.5rem;
-  background: linear-gradient(135deg, #DC2626 0%, #2563EB 100%);
+  background: var(--gradient-hero);
   color: white;
   border: none;
   border-radius: 8px;

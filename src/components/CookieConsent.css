@@ -34,7 +34,7 @@
   flex-shrink: 0;
   width: 44px;
   height: 44px;
-  background: linear-gradient(135deg, #DC2626 0%, #2563EB 100%);
+  background: var(--gradient-hero);
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -89,7 +89,7 @@
 }
 
 .cookie-btn-accept {
-  background: linear-gradient(135deg, #DC2626 0%, #2563EB 100%);
+  background: var(--gradient-hero);
   color: white;
 }
 

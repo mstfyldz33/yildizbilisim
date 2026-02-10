@@ -122,7 +122,7 @@ const Contact = () => {
               <div className="contact-card">
                 <div className="contact-card-icon" aria-hidden="true"><i className="fas fa-phone"></i></div>
                 <h4>Telefon</h4>
-                <p className="contact-value"><a href="tel:05415060404" aria-label="Telefon numarası: 0541 506 04 04"><i className="fas fa-phone" aria-hidden="true"></i> 0541 506 04 04</a></p>
+                <p className="contact-value"><a href="tel:05415060404" aria-label="Telefon numarası: 0 541 506 04 04"><i className="fas fa-phone" aria-hidden="true"></i> 0 541 506 04 04</a></p>
                 <a href="https://wa.me/905415060404" target="_blank" rel="noopener noreferrer" className="whatsapp-btn" aria-label="WhatsApp ile iletişime geç"><i className="fab fa-whatsapp" aria-hidden="true"></i> WhatsApp ile Yaz</a>
               </div>
               <div className="contact-card">
@@ -138,7 +138,7 @@ const Contact = () => {
               <div className="contact-card">
                 <div className="contact-card-icon" aria-hidden="true"><i className="fas fa-location-dot"></i></div>
                 <h4>Adres</h4>
-                <p className="contact-value"><i className="fas fa-location-dot" aria-hidden="true"></i> Göksu Mahallesi, Celal Bayar Cad. 98/A<br />Silifke/Mersin</p>
+                <p className="contact-value"><i className="fas fa-location-dot" aria-hidden="true"></i> Göksu Mahallesi Celal Bayar Caddesi 98/A<br />Silifke/Mersin</p>
               </div>
             </div>
           </div>

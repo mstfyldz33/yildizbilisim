@@ -32,9 +32,13 @@ const HeroSlider = () => {
       if (!querySnapshot.empty) {
         const formattedSlides = querySnapshot.docs.map((snap) => {
           const data = snap.data()
+          const imageUrl = (data.image_url && String(data.image_url).trim()) || ''
+          const mediaType = (data.media_type && String(data.media_type)) || 'icon'
           return {
             id: snap.id,
             ...data,
+            image_url: imageUrl,
+            media_type: mediaType,
             order_index: data.order_index ?? 999999,
             buttons: parseButtons(data.buttons)
           }
@@ -46,7 +50,7 @@ const HeroSlider = () => {
       }
     } catch (error) {
       console.error('Error fetching slides:', error)
-      setSlides(getDefaultSlides())
+      setSlides((prev) => (prev.length > 0 ? prev : getDefaultSlides()))
     } finally {
       setLoading(false)
     }
@@ -117,14 +121,14 @@ const HeroSlider = () => {
   }
 
   useEffect(() => {
-    if (isPaused) return
+    if (isPaused || slides.length <= 1) return
 
     const interval = setInterval(() => {
       nextSlide()
     }, 5000)
 
     return () => clearInterval(interval)
-  }, [currentSlide, isPaused])
+  }, [currentSlide, isPaused, slides.length])
 
   if (loading) {
     return (
@@ -139,8 +143,54 @@ const HeroSlider = () => {
   return (
     <section id="home" className="hero-slider">
       <div className="hero-slides">
-        {slides.map((slide, index) => (
-          <div key={slide.id || index} className={`hero-slide ${index === currentSlide ? 'active' : ''}`}>
+        {slides.map((slide, index) => {
+          const imageUrl = (slide.image_url && String(slide.image_url).trim()) || ''
+          const hasFullImage = imageUrl.length > 0 && (slide.media_type === 'image' || slide.media_type === 'icon' || !slide.media_type)
+          const hasFullVideo = slide.media_type === 'video' && slide.video_url
+          const hasFullYoutube = slide.media_type === 'youtube' && slide.youtube_url
+          const hasFullMedia = hasFullImage || hasFullVideo || hasFullYoutube
+          return (
+          <div
+            key={slide.id || index}
+            className={`hero-slide ${index === currentSlide ? 'active' : ''} ${hasFullImage ? 'hero-slide-full-image' : ''} ${hasFullVideo || hasFullYoutube ? 'hero-slide-full-video' : ''}`}
+          >
+            {hasFullImage && (
+              <div className="hero-slide-bg" aria-hidden="true">
+                <img
+                  src={imageUrl}
+                  alt=""
+                  loading={index === 0 ? 'eager' : 'lazy'}
+                  fetchPriority={index === 0 ? 'high' : 'auto'}
+                  decoding={index === 0 ? 'sync' : 'async'}
+                  onError={(e) => { e.target.style.background = 'rgba(0,0,0,0.3)'; console.warn('Slider image failed to load:', imageUrl) }}
+                />
+              </div>
+            )}
+            {hasFullVideo && (
+              <div className="hero-slide-bg hero-slide-video-bg" aria-hidden="true">
+                <video
+                  src={slide.video_url}
+                  autoPlay={slide.video_autoplay !== false}
+                  muted={slide.video_muted !== false}
+                  loop={slide.video_loop !== false}
+                  playsInline
+                  className="hero-video-full"
+                />
+              </div>
+            )}
+            {hasFullYoutube && (
+              <div className="hero-slide-bg hero-slide-youtube-bg" aria-hidden="true">
+                <iframe
+                  src={getYouTubeEmbedUrl(slide.youtube_url)}
+                  title={slide.title || 'Video'}
+                  frameBorder="0"
+                  allow="autoplay; encrypted-media"
+                  allowFullScreen
+                  className="hero-youtube-full"
+                />
+              </div>
+            )}
+            {!hasFullMedia && (
             <div className="container hero-slide-container">
               <div className="hero-content">
                 {slide.isH1 ? (
@@ -162,56 +212,18 @@ const HeroSlider = () => {
                   ))}
                 </div>
               </div>
-              
               <div className="hero-media">
                 {slide.media_type === 'icon' && (
                   <div className="hero-image" aria-hidden="true">
                     <i className={`fas ${slide.icon || 'fa-shield-halved'}`}></i>
                   </div>
                 )}
-
-                {slide.media_type === 'image' && slide.image_url && (
-                  <div className="hero-image-container">
-                    <img 
-                      src={slide.image_url} 
-                      alt={slide.title}
-                      className="hero-image-file"
-                      loading={index === 0 ? "eager" : "lazy"}
-                      fetchPriority={index === 0 ? "high" : "auto"}
-                      decoding={index === 0 ? "sync" : "async"}
-                    />
-                  </div>
-                )}
-                
-                {slide.media_type === 'youtube' && slide.youtube_url && (
-                  <div className="hero-video-container hero-youtube-container">
-                    <iframe
-                      src={getYouTubeEmbedUrl(slide.youtube_url)}
-                      title={slide.title}
-                      frameBorder="0"
-                      allow="autoplay; encrypted-media"
-                      allowFullScreen
-                      className="hero-youtube-iframe"
-                    />
-                  </div>
-                )}
-                
-                {slide.media_type === 'video' && slide.video_url && (
-                  <div className="hero-video-container">
-                    <video
-                      src={slide.video_url}
-                      autoPlay={slide.video_autoplay !== false}
-                      muted={slide.video_muted !== false}
-                      loop={slide.video_loop !== false}
-                      playsInline
-                      className="hero-video"
-                    />
-                  </div>
-                )}
               </div>
             </div>
+            )}
           </div>
-        ))}
+          )
+        })}
       </div>
       <div className="slider-controls" role="group" aria-label="Slider kontrolleri">
         <button className="slider-btn prev" onClick={prevSlide} aria-label="Önceki slide" type="button">

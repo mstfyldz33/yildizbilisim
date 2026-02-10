@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { db, storage } from '../../lib/firebase'
 import { useToast } from '../../components/Toast'
 import { collection, getDocs, doc, addDoc, updateDoc, deleteDoc, serverTimestamp } from 'firebase/firestore'
-import { ref, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage'
+import { ref, uploadBytes, uploadBytesResumable, getDownloadURL, deleteObject } from 'firebase/storage'
 import './AdminSlider.css'
 
 const AdminSlider = () => {
@@ -83,16 +83,30 @@ const AdminSlider = () => {
     })
   }
 
+  const MAX_VIDEO_SIZE_MB = 500
+  const MAX_VIDEO_BYTES = MAX_VIDEO_SIZE_MB * 1024 * 1024
+
   const handleSubmit = async (e) => {
     e.preventDefault()
     if (formData.media_type === 'image' && !formData.image_url?.trim()) {
       alert('Resim seçiliyken bir slider resmi yüklemeniz veya URL girmeniz gerekir.')
       return
     }
+    if (formData.media_type === 'video' && !formData.video_url?.trim()) {
+      alert('Video seçiliyken bir video yüklemeniz veya URL girmeniz gerekir.')
+      return
+    }
     try {
       const baseData = {
-        ...formData,
-        buttons: formData.buttons,
+        title: formData.title || '',
+        content: formData.content || '',
+        icon: formData.icon || 'fa-shield-halved',
+        isH1: !!formData.isH1,
+        buttons: Array.isArray(formData.buttons) ? formData.buttons : [],
+        media_type: formData.media_type || 'icon',
+        image_url: (formData.image_url && String(formData.image_url).trim()) || '',
+        youtube_url: (formData.youtube_url && String(formData.youtube_url).trim()) || '',
+        video_url: (formData.video_url && String(formData.video_url).trim()) || '',
         video_autoplay: formData.video_autoplay !== undefined ? formData.video_autoplay : true,
         video_muted: formData.video_muted !== undefined ? formData.video_muted : true,
         video_loop: formData.video_loop !== undefined ? formData.video_loop : true,
@@ -159,31 +173,91 @@ const AdminSlider = () => {
     setShowModal(true)
   }
 
+  const SLIDER_IMAGE_WIDTH = 1920
+  const SLIDER_IMAGE_HEIGHT = 1080
+
+  const resizeImageTo1920x1080 = (file) => {
+    return new Promise((resolve, reject) => {
+      const img = new Image()
+      const url = URL.createObjectURL(file)
+      img.onload = () => {
+        URL.revokeObjectURL(url)
+        const canvas = document.createElement('canvas')
+        canvas.width = SLIDER_IMAGE_WIDTH
+        canvas.height = SLIDER_IMAGE_HEIGHT
+        const ctx = canvas.getContext('2d')
+        if (!ctx) {
+          reject(new Error('Canvas desteklenmiyor'))
+          return
+        }
+        const scale = Math.max(SLIDER_IMAGE_WIDTH / img.width, SLIDER_IMAGE_HEIGHT / img.height)
+        const w = img.width * scale
+        const h = img.height * scale
+        const x = (SLIDER_IMAGE_WIDTH - w) / 2
+        const y = (SLIDER_IMAGE_HEIGHT - h) / 2
+        ctx.drawImage(img, x, y, w, h, 0, 0, SLIDER_IMAGE_WIDTH, SLIDER_IMAGE_HEIGHT)
+        const tryWebP = (cb) => {
+          canvas.toBlob(
+            (blob) => {
+              if (blob) cb(null, { blob, mimeType: 'image/webp', ext: 'webp' })
+              else cb(new Error('WebP desteklenmiyor'))
+            },
+            'image/webp',
+            0.88
+          )
+        }
+        const tryJpeg = (cb) => {
+          canvas.toBlob(
+            (blob) => {
+              if (blob) cb(null, { blob, mimeType: 'image/jpeg', ext: 'jpg' })
+              else cb(new Error('JPEG dönüştürülemedi'))
+            },
+            'image/jpeg',
+            0.88
+          )
+        }
+        tryWebP((err, result) => {
+          if (err) tryJpeg((err2, result2) => {
+            if (err2) reject(err2)
+            else resolve(result2)
+          })
+          else resolve(result)
+        })
+      }
+      img.onerror = () => {
+        URL.revokeObjectURL(url)
+        reject(new Error('Resim açılamadı. Dosya bozuk veya format desteklenmiyor olabilir.'))
+      }
+      img.src = url
+    })
+  }
+
   const handleImageUpload = async (e) => {
     const file = e.target.files[0]
     if (!file) return
 
     if (!file.type.startsWith('image/')) {
-      alert('Lütfen bir resim dosyası seçin!')
+      showToast('Lütfen bir resim dosyası seçin (JPG, PNG, WebP).', 'error')
       return
     }
 
     setUploading(true)
     try {
-      const fileExt = file.name.split('.').pop()
-      const fileName = `${Date.now()}_${Math.random().toString(36).substring(7)}.${fileExt}`
+      const { blob, mimeType, ext } = await resizeImageTo1920x1080(file)
+      const fileName = `${Date.now()}_${Math.random().toString(36).substring(7)}.${ext}`
       const filePath = `images/slider/${fileName}`
       const storageRef = ref(storage, filePath)
 
-      await uploadBytes(storageRef, file)
+      await uploadBytes(storageRef, blob, { contentType: mimeType })
       const publicUrl = await getDownloadURL(storageRef)
-      setFormData({ ...formData, image_url: publicUrl })
-      showToast('Resim yüklendi. Kaydet butonuna basarak slide\'ı güncelleyin.', 'success')
+      setFormData((prev) => ({ ...prev, image_url: publicUrl }))
+      showToast('Resim 1920×1080 yüklendi. Kaydet butonuna basın.', 'success')
     } catch (error) {
       console.error('Error uploading image:', error)
       showToast('Resim yüklenemedi: ' + (error.message || 'Bilinmeyen hata'), 'error')
     } finally {
       setUploading(false)
+      e.target.value = ''
     }
   }
 
@@ -203,6 +277,57 @@ const AdminSlider = () => {
     }
 
     setFormData({ ...formData, image_url: '' })
+  }
+
+  const handleVideoUpload = async (e) => {
+    const file = e.target.files[0]
+    if (!file) return
+
+    if (!file.type.startsWith('video/')) {
+      showToast('Lütfen bir video dosyası seçin (MP4, WebM vb.)', 'error')
+      return
+    }
+    if (file.size > MAX_VIDEO_BYTES) {
+      showToast(`Video en fazla ${MAX_VIDEO_SIZE_MB}MB olabilir. Seçilen: ${(file.size / (1024 * 1024)).toFixed(1)}MB`, 'error')
+      return
+    }
+
+    setUploading(true)
+    try {
+      const fileExt = file.name.split('.').pop()
+      const fileName = `${Date.now()}_${Math.random().toString(36).substring(7)}.${fileExt}`
+      const filePath = `videos/slider/${fileName}`
+      const storageRef = ref(storage, filePath)
+
+      if (file.size > 50 * 1024 * 1024) {
+        const uploadTask = uploadBytesResumable(storageRef, file)
+        await new Promise((resolve, reject) => {
+          uploadTask.on(
+            'state_changed',
+            (snap) => {},
+            reject,
+            () => getDownloadURL(uploadTask.snapshot.ref).then(resolve)
+          )
+        }).then((url) => {
+          setFormData({ ...formData, video_url: url })
+        })
+      } else {
+        await uploadBytes(storageRef, file)
+        const publicUrl = await getDownloadURL(storageRef)
+        setFormData({ ...formData, video_url: publicUrl })
+      }
+      showToast('Video yüklendi. Kaydet butonuna basarak slide\'ı güncelleyin.', 'success')
+    } catch (error) {
+      console.error('Error uploading video:', error)
+      showToast('Video yüklenemedi: ' + (error.message || 'Bilinmeyen hata'), 'error')
+    } finally {
+      setUploading(false)
+      e.target.value = ''
+    }
+  }
+
+  const handleRemoveVideo = () => {
+    setFormData({ ...formData, video_url: '' })
   }
 
   const handleDelete = async (id) => {
@@ -331,21 +456,23 @@ const AdminSlider = () => {
             </div>
             <form onSubmit={handleSubmit} className="admin-modal-form">
               <div className="admin-form-group">
-                <label>Başlık *</label>
+                <label>Başlık {['icon'].includes(formData.media_type) ? '*' : '(Görsel/Video slaytlarda boş bırakılabilir)'}</label>
                 <input
                   type="text"
                   value={formData.title}
                   onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                  required
+                  required={formData.media_type === 'icon'}
+                  placeholder={formData.media_type !== 'icon' ? 'Boş bırakırsanız sadece görsel/video gösterilir' : ''}
                 />
               </div>
               <div className="admin-form-group">
-                <label>İçerik *</label>
+                <label>İçerik {['icon'].includes(formData.media_type) ? '*' : '(Görsel/Video slaytlarda boş bırakılabilir)'}</label>
                 <textarea
                   value={formData.content}
                   onChange={(e) => setFormData({ ...formData, content: e.target.value })}
                   rows="4"
-                  required
+                  required={formData.media_type === 'icon'}
+                  placeholder={formData.media_type !== 'icon' ? 'Boş bırakırsanız sadece görsel/video gösterilir' : ''}
                 />
               </div>
               <div className="admin-form-row">
@@ -405,7 +532,7 @@ const AdminSlider = () => {
                         </div>
                       )}
                       <p className="admin-upload-hint">
-                        Slider için resim yükleyebilirsiniz. Önerilen boyut: 1920x1080px
+                        Resim yükleyin (JPG, PNG, WebP); otomatik 1920×1080 WebP'ye çevrilir.
                       </p>
                       <div className="admin-form-group" style={{ marginTop: '1rem' }}>
                         <label>Veya Harici URL Girin</label>
@@ -443,14 +570,46 @@ const AdminSlider = () => {
               {formData.media_type === 'video' && (
                 <>
                   <div className="admin-form-group">
-                    <label>Video URL (Firebase Storage veya harici link) *</label>
-                    <input
-                      type="text"
-                      value={formData.video_url}
-                      onChange={(e) => setFormData({ ...formData, video_url: e.target.value })}
-                      placeholder="https://... veya /videos/..."
-                      required
-                    />
+                    <label>Video (maks. {MAX_VIDEO_SIZE_MB}MB) *</label>
+                    {formData.video_url ? (
+                      <div className="admin-image-preview-form">
+                        <video src={formData.video_url} controls style={{ maxWidth: '100%', maxHeight: '200px', borderRadius: '8px' }} />
+                        <button
+                          type="button"
+                          onClick={handleRemoveVideo}
+                          className="admin-btn-delete admin-btn-small"
+                        >
+                          <i className="fas fa-times"></i> Kaldır
+                        </button>
+                      </div>
+                    ) : (
+                      <div className="admin-upload-area">
+                        <input
+                          type="file"
+                          accept="video/*"
+                          onChange={handleVideoUpload}
+                          disabled={uploading}
+                          className="admin-file-input"
+                        />
+                        {uploading && (
+                          <div className="admin-upload-status">
+                            <i className="fas fa-spinner fa-spin"></i> Video yükleniyor...
+                          </div>
+                        )}
+                        <p className="admin-upload-hint">
+                          Video yükleyin (maks. {MAX_VIDEO_SIZE_MB}MB). MP4 önerilir. Mobilde de senkron çalışır.
+                        </p>
+                      </div>
+                    )}
+                    <div className="admin-form-group" style={{ marginTop: '1rem' }}>
+                      <label>Veya Video URL girin</label>
+                      <input
+                        type="text"
+                        value={formData.video_url}
+                        onChange={(e) => setFormData({ ...formData, video_url: e.target.value })}
+                        placeholder="https://..."
+                      />
+                    </div>
                   </div>
                   <div className="admin-form-row">
                     <div className="admin-form-group">
@@ -484,9 +643,6 @@ const AdminSlider = () => {
                       </label>
                     </div>
                   </div>
-                  <p className="admin-form-hint">
-                    Video dosyaları için MP4 formatı önerilir. Büyük dosyalar için YouTube kullanmanız önerilir.
-                  </p>
                 </>
               )}
                 <div className="admin-form-group">
