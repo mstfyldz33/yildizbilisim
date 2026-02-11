@@ -101,7 +101,7 @@ const About = () => {
                 >
                   <img 
                     src={image} 
-                    alt={`Ekip Fotoğrafı ${index + 1}`}
+                    alt={`Yıldız Bilişim Ekip Çalışması ve Proje Fotoğrafı ${index + 1} - Güvenlik Kamera Kurulum Ekibi`}
                     loading="lazy"
                     fetchPriority="low"
                     onError={(e) => {
@@ -133,7 +133,7 @@ const About = () => {
             </button>
             <img 
               src={teamImages[currentImage]} 
-              alt={`Ekip Fotoğrafı ${currentImage + 1}`}
+              alt={`Yıldız Bilişim Ekip Çalışması ve Proje Fotoğrafı ${currentImage + 1} - Güvenlik Kamera Kurulum Ekibi`}
               className="lightbox-image"
               fetchPriority="high"
             />

@@ -3,6 +3,7 @@ import { useParams, Link, useNavigate } from 'react-router-dom'
 import { db } from '../lib/firebase'
 import { doc, getDoc, collection, query, where, orderBy, limit, getDocs } from 'firebase/firestore'
 import SEO from '../components/SEO'
+import Breadcrumbs from '../components/Breadcrumbs'
 import { trackPageView } from '../utils/analytics'
 
 const BlogDetailPage = () => {
@@ -181,6 +182,74 @@ const BlogDetailPage = () => {
   const postUrl = `${window.location.origin}/blog/${id}`
   const shareText = encodeURIComponent(`${post.title} - Yıldız Bilişim`)
 
+  // Article schema for SEO
+  useEffect(() => {
+    if (!post) return
+
+    const formatDateForSchema = (dateString) => {
+      if (!dateString) return new Date().toISOString()
+      try {
+        let date
+        if (dateString && typeof dateString === 'object' && dateString.toDate) {
+          date = dateString.toDate()
+        } else if (dateString && typeof dateString === 'object' && dateString.seconds) {
+          date = new Date(dateString.seconds * 1000)
+        } else {
+          date = new Date(dateString)
+        }
+        return date.toISOString()
+      } catch {
+        return new Date().toISOString()
+      }
+    }
+
+    const schema = {
+      '@context': 'https://schema.org',
+      '@type': 'Article',
+      headline: post.title,
+      description: post.excerpt || post.title,
+      image: post.image_url ? `https://yildizcloud.com${post.image_url.startsWith('http') ? '' : ''}${post.image_url}` : 'https://yildizcloud.com/logo.png',
+      datePublished: formatDateForSchema(post.date || post.created_at),
+      dateModified: formatDateForSchema(post.updated_at || post.date || post.created_at),
+      author: {
+        '@type': 'Organization',
+        name: 'Yıldız Bilişim',
+        url: 'https://yildizcloud.com'
+      },
+      publisher: {
+        '@type': 'Organization',
+        name: 'Yıldız Bilişim',
+        logo: {
+          '@type': 'ImageObject',
+          url: 'https://yildizcloud.com/logo.png'
+        }
+      },
+      mainEntityOfPage: {
+        '@type': 'WebPage',
+        '@id': `https://yildizcloud.com/blog/${id}`
+      },
+      keywords: post.tags ? (Array.isArray(post.tags) ? post.tags.join(', ') : post.tags) : '',
+      articleSection: post.category || 'Güvenlik Kamera Sistemleri',
+      wordCount: post.content ? post.content.split(/\s+/).length : 0
+    }
+
+    let script = document.querySelector('script[data-article-schema]')
+    if (!script) {
+      script = document.createElement('script')
+      script.type = 'application/ld+json'
+      script.setAttribute('data-article-schema', 'true')
+      document.head.appendChild(script)
+    }
+    script.textContent = JSON.stringify(schema)
+
+    return () => {
+      const existingScript = document.querySelector('script[data-article-schema]')
+      if (existingScript) {
+        existingScript.remove()
+      }
+    }
+  }, [post, id])
+
   return (
     <>
       <SEO 
@@ -188,16 +257,15 @@ const BlogDetailPage = () => {
         description={post.excerpt || post.title}
         keywords={post.tags ? (Array.isArray(post.tags) ? post.tags.join(', ') : post.tags) : ''}
         image={post.image_url || '/logo.png'}
+        type="article"
       />
       <section className="blog-detail-page">
         <div className="container">
-          <div className="blog-detail-breadcrumb">
-            <Link to="/">Ana Sayfa</Link>
-            <i className="fas fa-chevron-right"></i>
-            <Link to="/blog">Blog</Link>
-            <i className="fas fa-chevron-right"></i>
-            <span>{post.title}</span>
-          </div>
+          <Breadcrumbs items={[
+            { label: 'Ana Sayfa', url: '/' },
+            { label: 'Blog', url: '/blog' },
+            { label: post.title, url: `/blog/${id}`, isLast: true }
+          ]} />
 
           <article className="blog-detail-article">
             <header className="blog-detail-header">
@@ -221,7 +289,7 @@ const BlogDetailPage = () => {
               <div className="blog-detail-image">
                 <img 
                   src={post.image_url} 
-                  alt={post.title}
+                  alt={post.title ? `${post.title} - Yıldız Bilişim Güvenlik Kamera Sistemleri Blog` : 'Güvenlik kamera sistemleri blog görseli'}
                   loading="eager"
                   fetchPriority="high"
                 />
@@ -336,7 +404,10 @@ const BlogDetailPage = () => {
                   >
                     {relatedPost.image_url && (
                       <div className="related-post-image">
-                        <img src={relatedPost.image_url} alt={relatedPost.title} />
+                        <img 
+                          src={relatedPost.image_url} 
+                          alt={relatedPost.title ? `${relatedPost.title} - Yıldız Bilişim Blog` : 'İlgili blog yazısı görseli'} 
+                        />
                       </div>
                     )}
                     <div className="related-post-content">

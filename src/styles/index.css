@@ -26,9 +26,11 @@
 @import './components/careers.css';
 @import './components/newsletter.css';
 @import './components/floating-widgets.css';
+@import './components/breadcrumbs.css';
 
 /* Pages */
 @import './pages/legal.css';
+@import './pages/regional-service.css';
 
 /* Responsive */
 @import './responsive.css';

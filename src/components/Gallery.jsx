@@ -117,7 +117,7 @@ const Gallery = () => {
                   {item.image ? (
                     <img 
                       src={item.image} 
-                      alt={item.title}
+                      alt={item.title ? `${item.title} - Yıldız Bilişim Güvenlik Kamera Kurulum Projesi` : 'Güvenlik kamera kurulum projesi görseli'}
                       loading="lazy"
                       fetchPriority="low"
                       decoding="async"
@@ -160,7 +160,7 @@ const Gallery = () => {
               {galleryItems[currentImage].image ? (
                 <img 
                   src={galleryItems[currentImage].image} 
-                  alt={galleryItems[currentImage].title}
+                  alt={galleryItems[currentImage].title ? `${galleryItems[currentImage].title} - Yıldız Bilişim Güvenlik Kamera Kurulum Projesi` : 'Güvenlik kamera kurulum projesi görseli'}
                   className="lightbox-image"
                   fetchPriority="high"
                 />

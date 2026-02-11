@@ -7,6 +7,7 @@ import WhatsAppWidget from './WhatsAppWidget'
 import CookieConsent from './CookieConsent'
 import SEO from './SEO'
 import SkipLink from './SkipLink'
+import Breadcrumbs from './Breadcrumbs'
 
 const Layout = ({ children, seo }) => {
   const location = useLocation()
@@ -14,19 +15,19 @@ const Layout = ({ children, seo }) => {
   // Default SEO values based on route
   const defaultSEO = {
     '/': {
-      title: 'Yıldız Bilişim - Silifke Güvenlik Kamera Sistemleri | IP Kamera Kurulum',
-      description: 'Silifke ve çevresinde profesyonel güvenlik kamera sistemleri. IP kamera kurulum, mobil izleme, bulut kayıt hizmetleri. Hikvision, Dahua, Axis markaları. 0 541 506 04 04',
-      keywords: 'güvenlik kamera, IP kamera, Silifke, kamera kurulum, güvenlik sistemleri, Hikvision, Dahua, Axis'
+      title: 'Yıldız Bilişim - Silifke Güvenlik Kamera Sistemleri | IP Kamera Kurulum | Profesyonel Çözümler',
+      description: 'Silifke ve çevresinde profesyonel güvenlik kamera sistemleri kurulum ve servis hizmetleri. IP kamera kurulum, mobil izleme, bulut kayıt, DVR/NVR sistemleri. Hikvision, Dahua, Axis yetkili bayisi. 7/24 teknik destek. Ücretsiz keşif ve teklif. Telefon: 0 541 506 04 04',
+      keywords: 'güvenlik kamera Silifke, IP kamera kurulum, güvenlik kamera sistemleri, mobil izleme kamera, bulut kayıt sistemi, Hikvision Silifke, Dahua kamera, Axis güvenlik sistemleri, kamera montaj servisi, profesyonel güvenlik çözümleri, Silifke güvenlik kamera fiyatları'
     },
     '/about': {
-      title: 'Hakkımızda - Yıldız Bilişim | Silifke Güvenlik Kamera Sistemleri',
-      description: 'Yıldız Bilişim olarak Silifke ve çevresinde profesyonel güvenlik kamera sistemleri hizmeti sunuyoruz. Deneyimli ekibimiz ve kaliteli ürünlerimizle yanınızdayız.',
-      keywords: 'hakkımızda, Yıldız Bilişim, Silifke güvenlik, kamera sistemleri, profesyonel hizmet'
+      title: 'Hakkımızda - Yıldız Bilişim | Silifke Güvenlik Kamera Sistemleri | Deneyimli Ekip',
+      description: 'Yıldız Bilişim olarak Silifke ve çevresinde 10+ yıllık deneyimle profesyonel güvenlik kamera sistemleri hizmeti sunuyoruz. Hikvision, Dahua, Axis yetkili bayisi. Deneyimli teknik ekibimiz, kaliteli ürünlerimiz ve 7/24 destek hizmetimizle yanınızdayız. Kurumsal ve bireysel müşterilerimize özel çözümler.',
+      keywords: 'hakkımızda Yıldız Bilişim, Silifke güvenlik kamera firması, deneyimli kamera kurulum ekibi, profesyonel güvenlik hizmetleri, güvenilir kamera sistemleri, Silifke güvenlik kamera şirketi'
     },
     '/services': {
-      title: 'Hizmetlerimiz - Yıldız Bilişim | Güvenlik Kamera Sistemleri',
-      description: 'IP kamera kurulum, mobil izleme, bulut kayıt, güvenlik kamera bakım ve onarım hizmetleri. Silifke ve çevresinde profesyonel çözümler.',
-      keywords: 'güvenlik kamera hizmetleri, IP kamera kurulum, mobil izleme, bulut kayıt, kamera bakım'
+      title: 'Hizmetlerimiz - Yıldız Bilişim | Güvenlik Kamera Sistemleri | Silifke',
+      description: 'Silifke ve çevresinde profesyonel güvenlik kamera sistemleri hizmetleri. IP kamera kurulum, mobil izleme, bulut kayıt, DVR/NVR sistemleri, alarm sistemleri, ağ altyapısı kurulumu. Hikvision, Dahua, Axis markaları. 7/24 teknik destek ve bakım hizmetleri. Ücretsiz keşif ve teklif.',
+      keywords: 'güvenlik kamera hizmetleri, IP kamera kurulum Silifke, mobil izleme sistemleri, bulut kayıt hizmeti, kamera bakım onarım, DVR NVR kurulum, alarm sistemleri, ağ altyapısı kurulumu, güvenlik kamera servisi Silifke, profesyonel kamera kurulum'
     },
     '/projects': {
       title: 'Projelerimiz - Yıldız Bilişim | Tamamlanan Güvenlik Kamera Projeleri',
@@ -54,9 +55,9 @@ const Layout = ({ children, seo }) => {
       keywords: 'müşteri yorumları, referanslar, güvenlik kamera yorumları, Yıldız Bilişim'
     },
     '/blog': {
-      title: 'Blog - Yıldız Bilişim | Güvenlik Sistemleri Hakkında Bilgiler',
-      description: 'Güvenlik kamera sistemleri, teknolojik gelişmeler, ipuçları ve rehberler. Sektörden güncel haberler ve bilgilendirici makaleler.',
-      keywords: 'güvenlik blog, kamera sistemleri blog, teknoloji haberleri, güvenlik ipuçları'
+      title: 'Blog - Yıldız Bilişim | Güvenlik Kamera Sistemleri Rehberleri ve İpuçları',
+      description: 'Güvenlik kamera sistemleri hakkında kapsamlı rehberler, teknolojik gelişmeler, kurulum ipuçları ve sektör haberleri. IP kamera seçimi, kurulum rehberleri, bakım önerileri ve güvenlik sistemleri hakkında bilgilendirici makaleler.',
+      keywords: 'güvenlik kamera blog, IP kamera rehberleri, kamera kurulum ipuçları, güvenlik sistemleri makaleleri, teknoloji haberleri güvenlik, kamera bakım önerileri, güvenlik kamera seçimi rehberi'
     },
     '/faq': {
       title: 'Sıkça Sorulan Sorular - Yıldız Bilişim | Destek',
@@ -108,7 +109,10 @@ const Layout = ({ children, seo }) => {
         </div>
       )}
       <Header />
-      <main id="main-content" role="main">{children}</main>
+      <main id="main-content" role="main">
+        {location.pathname !== '/' && <Breadcrumbs />}
+        {children}
+      </main>
       <Footer />
       <BackToTop />
       <WhatsAppWidget />

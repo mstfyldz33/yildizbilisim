@@ -158,7 +158,7 @@ const HeroSlider = () => {
               <div className="hero-slide-bg" aria-hidden="true">
                 <img
                   src={imageUrl}
-                  alt=""
+                  alt={slide.title ? `${slide.title} - Yıldız Bilişim Güvenlik Kamera Sistemleri` : 'Güvenlik kamera sistemleri slider görseli'}
                   loading={index === 0 ? 'eager' : 'lazy'}
                   fetchPriority={index === 0 ? 'high' : 'auto'}
                   decoding={index === 0 ? 'sync' : 'async'}

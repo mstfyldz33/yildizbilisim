@@ -39,6 +39,15 @@ const ContactPage = lazy(() => import('./pages/ContactPage'))
 const NotFoundPage = lazy(() => import('./pages/NotFoundPage'))
 const KVKKPage = lazy(() => import('./pages/KVKKPage'))
 const PrivacyPage = lazy(() => import('./pages/PrivacyPage'))
+// Regional Service Pages
+const SilifkeServicePage = lazy(() => import('./pages/services/SilifkeServicePage'))
+const TasucuServicePage = lazy(() => import('./pages/services/TasucuServicePage'))
+const AydincikServicePage = lazy(() => import('./pages/services/AydincikServicePage'))
+const AnamurServicePage = lazy(() => import('./pages/services/AnamurServicePage'))
+const KizkalesiServicePage = lazy(() => import('./pages/services/KizkalesiServicePage'))
+const CorporateServicePage = lazy(() => import('./pages/services/CorporateServicePage'))
+const EmergencyServicePage = lazy(() => import('./pages/services/EmergencyServicePage'))
+const PricingPage = lazy(() => import('./pages/services/PricingPage'))
 const CookiePolicyPage = lazy(() => import('./pages/CookiePolicyPage'))
 const TermsPage = lazy(() => import('./pages/TermsPage'))
 const SearchPage = lazy(() => import('./pages/SearchPage'))
@@ -94,6 +103,87 @@ function AppRouter() {
           <Layout>
             <Suspense fallback={<LoadingFallback />}>
               <ServicesPage />
+            </Suspense>
+          </Layout>
+        } 
+      />
+      {/* Regional Service Pages */}
+      <Route 
+        path="/services/silifke" 
+        element={
+          <Layout>
+            <Suspense fallback={<LoadingFallback />}>
+              <SilifkeServicePage />
+            </Suspense>
+          </Layout>
+        } 
+      />
+      <Route 
+        path="/services/tasucu" 
+        element={
+          <Layout>
+            <Suspense fallback={<LoadingFallback />}>
+              <TasucuServicePage />
+            </Suspense>
+          </Layout>
+        } 
+      />
+      <Route 
+        path="/services/aydincik" 
+        element={
+          <Layout>
+            <Suspense fallback={<LoadingFallback />}>
+              <AydincikServicePage />
+            </Suspense>
+          </Layout>
+        } 
+      />
+      <Route 
+        path="/services/anamur" 
+        element={
+          <Layout>
+            <Suspense fallback={<LoadingFallback />}>
+              <AnamurServicePage />
+            </Suspense>
+          </Layout>
+        } 
+      />
+      <Route 
+        path="/services/kizkalesi" 
+        element={
+          <Layout>
+            <Suspense fallback={<LoadingFallback />}>
+              <KizkalesiServicePage />
+            </Suspense>
+          </Layout>
+        } 
+      />
+      <Route 
+        path="/services/kurumsal" 
+        element={
+          <Layout>
+            <Suspense fallback={<LoadingFallback />}>
+              <CorporateServicePage />
+            </Suspense>
+          </Layout>
+        } 
+      />
+      <Route 
+        path="/services/acil-servis" 
+        element={
+          <Layout>
+            <Suspense fallback={<LoadingFallback />}>
+              <EmergencyServicePage />
+            </Suspense>
+          </Layout>
+        } 
+      />
+      <Route 
+        path="/services/fiyatlar" 
+        element={
+          <Layout>
+            <Suspense fallback={<LoadingFallback />}>
+              <PricingPage />
             </Suspense>
           </Layout>
         } 

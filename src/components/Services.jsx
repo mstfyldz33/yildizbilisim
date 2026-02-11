@@ -10,6 +10,59 @@ const Services = () => {
     fetchServices()
   }, [])
 
+  // Service schema for SEO
+  useEffect(() => {
+    if (services.length === 0) return
+
+    const serviceSchemas = services.map((service) => ({
+      '@type': 'Service',
+      serviceType: service.title,
+      description: service.description,
+      provider: {
+        '@type': 'LocalBusiness',
+        name: 'Yıldız Bilişim',
+        address: {
+          '@type': 'PostalAddress',
+          addressLocality: 'Silifke',
+          addressRegion: 'Mersin',
+          addressCountry: 'TR'
+        },
+        telephone: '+905415060404',
+        url: 'https://yildizcloud.com'
+      },
+      areaServed: {
+        '@type': 'City',
+        name: 'Silifke'
+      }
+    }))
+
+    const schema = {
+      '@context': 'https://schema.org',
+      '@type': 'ItemList',
+      itemListElement: serviceSchemas.map((serviceSchema, index) => ({
+        '@type': 'ListItem',
+        position: index + 1,
+        item: serviceSchema
+      }))
+    }
+
+    let script = document.querySelector('script[data-services-schema]')
+    if (!script) {
+      script = document.createElement('script')
+      script.type = 'application/ld+json'
+      script.setAttribute('data-services-schema', 'true')
+      document.head.appendChild(script)
+    }
+    script.textContent = JSON.stringify(schema)
+
+    return () => {
+      const existingScript = document.querySelector('script[data-services-schema]')
+      if (existingScript) {
+        existingScript.remove()
+      }
+    }
+  }, [services])
+
   const fetchServices = async () => {
     try {
       const q = query(collection(db, 'services'), orderBy('created_at', 'asc'))
