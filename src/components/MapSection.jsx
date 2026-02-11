@@ -40,7 +40,7 @@ const MapSection = () => {
         <div className="map-container">
           <div className="address-map">
             <iframe 
-              src="https://www.google.com/maps/d/embed?mid=1OdEzqNT8JHj8cl1KUjIPwOgeZtXn-mg&ehbc=2E312F&noprof=1" 
+              src="https://www.google.com/maps/d/u/0/embed?mid=1OdEzqNT8JHj8cl1KUjIPwOgeZtXn-mg&ehbc=2E312F" 
               width="100%" 
               height="480" 
               style={{ border: 0, borderRadius: '12px' }} 

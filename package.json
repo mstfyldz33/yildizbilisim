@@ -8,7 +8,9 @@
     "build": "vite build",
     "start": "node server.js",
     "preview": "vite preview",
-"sync-google-reviews": "node scripts/sync-google-reviews.js",
+    "sync-google-reviews": "node scripts/sync-google-reviews.js",
+    "generate-sitemap": "node scripts/generate-sitemap.js",
+    "build": "npm run generate-sitemap && vite build",
     "deploy:git": "npm run build"
   },
   "engines": {

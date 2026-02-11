@@ -147,7 +147,7 @@ const Contact = () => {
               <h3><i className="fas fa-map-location-dot"></i> Konumumuz</h3>
               <div className="contact-map-wrapper">
                 <iframe 
-                  src="https://www.google.com/maps/d/embed?mid=1OdEzqNT8JHj8cl1KUjIPwOgeZtXn-mg&ehbc=2E312F&noprof=1" 
+                  src="https://www.google.com/maps/d/u/0/embed?mid=1OdEzqNT8JHj8cl1KUjIPwOgeZtXn-mg&ehbc=2E312F" 
                   className="contact-map-iframe"
                   allowFullScreen={true}
                   loading="lazy" 
